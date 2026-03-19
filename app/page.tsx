@@ -3,6 +3,15 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import {
+  Lightbulb,
+  Zap,
+  Crown,
+  Globe,
+  Send,
+  X,
+} from "lucide-react";
 
 type Language = "en" | "fr" | "rw";
 type ThemeMode = "dark" | "light";
@@ -102,10 +111,10 @@ const copy = {
 } as const;
 
 const features = [
-  { icon: "CO", title: "Collaboration", text: "Unified teams and aligned execution across products and campaigns." },
-  { icon: "IN", title: "Innovation", text: "Future-ready solutions blending aesthetics and technical precision." },
-  { icon: "LE", title: "Leadership", text: "Women-led strategy with bold, accountable decision-making." },
-  { icon: "360", title: "Full Ecosystem", text: "One loop from ideation to launch, optimization, and growth." },
+  { icon: <Lightbulb size={20} />, title: "Collaboration", text: "Unified teams and aligned execution across products and campaigns." },
+  { icon: <Zap size={20} />, title: "Innovation", text: "Future-ready solutions blending aesthetics and technical precision." },
+  { icon: <Crown size={20} />, title: "Leadership", text: "Women-led strategy with bold, accountable decision-making." },
+  { icon: <Globe size={20} />, title: "Full Ecosystem", text: "One loop from ideation to launch, optimization, and growth." },
 ];
 
 const productCards = [
@@ -295,50 +304,130 @@ export default function Home() {
       </nav>
 
       <main className="content" id="home">
-        <section className="hero" data-reveal>
-          <div className="hero-copy">
+        <motion.section
+          className="hero"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="hero-copy"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             <p className="pill">{t.badge}</p>
             <h1>{t.heroTitle}</h1>
             <p className="hero-subtitle">{t.heroSubtitle}</p>
             <div className="hero-buttons">
-              <Button asChild variant="gradient">
-                <a href="#contact">{t.request}</a>
-              </Button>
-              <Button asChild variant="outline">
-                <a href="#contact">{t.call}</a>
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button asChild variant="gradient">
+                  <a href="#contact">{t.request}</a>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button asChild variant="outline">
+                  <a href="#contact">{t.call}</a>
+                </Button>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
           <div className="hero-visual" aria-hidden="true">
-            <div className="glow-halo" />
-            <div className="hive-cluster">
-              {Array.from({ length: 7 }).map((_, i) => (
-                <span key={`hex-${i}`} className="hex" />
-              ))}
-            </div>
+            <motion.div
+              className="glow-halo"
+              animate={{
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.div
+              className="hero-image"
+              animate={{
+                y: [0, -12, 0],
+                rotateX: [0, 5, 0],
+                rotateY: [0, 3, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <Image
+                src="/image/home.png"
+                alt="360 Hive by Queens - Innovation Hub"
+                width={300}
+                height={300}
+                priority
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  objectFit: "contain",
+                }}
+              />
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="about" id="about" data-reveal>
+        <motion.section
+          className="about"
+          id="about"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2>{t.aboutTitle}</h2>
           <p>{t.aboutText}</p>
           <div className="feature-grid">
-            {features.map((item) => (
-              <article key={item.title} className="feature-card">
+            {features.map((item, idx) => (
+              <motion.article
+                key={item.title}
+                className="feature-card"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ x: 8 }}
+              >
                 <span className="feature-icon">{item.icon}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-              </article>
+              </motion.article>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="products" id="products" data-reveal>
+        <motion.section
+          className="products"
+          id="products"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2>{t.productsTitle}</h2>
           <div className="product-grid">
-            {productCards.map((card) => (
-              <article key={card.title} className="product-card">
+            {productCards.map((card, idx) => (
+              <motion.article
+                key={card.title}
+                className="product-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+              >
                 <div className="product-media">{card.key}</div>
                 <div className="product-body">
                   <h3>{card.title}</h3>
@@ -347,16 +436,31 @@ export default function Home() {
                     Learn More
                   </a>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="testimonials" data-reveal>
+        <motion.section
+          className="testimonials"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2>{t.testimonialsTitle}</h2>
           <div className="testimonial-grid">
-            {testimonials.map((item) => (
-              <article key={item.name} className="testimonial-card">
+            {testimonials.map((item, idx) => (
+              <motion.article
+                key={item.name}
+                className="testimonial-card"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <div className="person">
                   <span className="avatar">{item.name.slice(0, 2).toUpperCase()}</span>
                   <div>
@@ -365,24 +469,47 @@ export default function Home() {
                   </div>
                 </div>
                 <blockquote>&ldquo;{item.quote}&rdquo;</blockquote>
-              </article>
+              </motion.article>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="media" data-reveal>
+        <motion.section
+          className="media"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <h2>{t.mediaTitle}</h2>
           <div className="media-grid">
-            {visualTiles.map((tile) => (
-              <article key={tile} className="media-card">
+            {visualTiles.map((tile, idx) => (
+              <motion.article
+                key={tile}
+                className="media-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.08 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+              >
                 <span>Featured</span>
                 <h3>{tile}</h3>
-              </article>
+              </motion.article>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="contact" id="contact" data-reveal>
+        <motion.section
+          className="contact"
+          id="contact"
+          data-reveal
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           <div className="contact-info">
             <h2>{t.contactTitle}</h2>
             <p>{t.contactText}</p>
@@ -402,7 +529,14 @@ export default function Home() {
             </ul>
           </div>
 
-          <form className="contact-form" onSubmit={submitContact}>
+          <motion.form
+            className="contact-form"
+            onSubmit={submitContact}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             <label>
               {t.formName}
               <input name="name" required />
@@ -415,15 +549,23 @@ export default function Home() {
               {t.formMessage}
               <textarea name="message" rows={5} required />
             </label>
-            <Button type="submit" variant="gradient" className="form-submit">
-              {t.send}
-            </Button>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <Button type="submit" variant="gradient" className="form-submit">
+                {t.send}
+              </Button>
+            </motion.div>
             {formSent && <p className="success">{t.sent}</p>}
-          </form>
-        </section>
+          </motion.form>
+        </motion.section>
       </main>
 
-      <footer className="footer">
+      <motion.footer
+        className="footer"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
         <div>
           <p className="brand-line">360 Hive by Queens</p>
           <p>{t.copyright}</p>
@@ -445,49 +587,72 @@ export default function Home() {
             IG
           </a>
         </div>
-      </footer>
+      </motion.footer>
 
-      <Button
-        type="button"
-        variant="gradient"
-        className="chat-fab"
-        onClick={() => setChatOpen((v) => !v)}
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        {t.chat}
-      </Button>
+        <Button
+          type="button"
+          variant="gradient"
+          className="chat-fab"
+          onClick={() => setChatOpen((v) => !v)}
+        >
+          {t.chat}
+        </Button>
+      </motion.div>
 
-      {chatOpen && (
-        <aside className="chat-window" aria-label={t.chatTitle}>
-          <header>
-            <div>
-              <h3>{t.chatTitle}</h3>
-              <p>{t.chatHint}</p>
-            </div>
-            <Button type="button" variant="ghost" size="sm" onClick={() => setChatOpen(false)}>
-              Close
-            </Button>
-          </header>
-
-          <div className="chat-messages" aria-live="polite">
-            {chatMessages.map((msg, idx) => (
-              <p key={`${msg.role}-${idx}`} className={`bubble ${msg.role}`}>
-                {msg.text}
-              </p>
-            ))}
+      <motion.aside
+        className="chat-window"
+        aria-label={t.chatTitle}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={chatOpen ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3 }}
+        style={{ pointerEvents: chatOpen ? "auto" : "none" }}
+      >
+        <header>
+          <div>
+            <h3>{t.chatTitle}</h3>
+            <p>{t.chatHint}</p>
           </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => setChatOpen(false)}
+          >
+            <X size={16} />
+          </Button>
+        </header>
 
-          <form className="chat-form" onSubmit={submitChat}>
-            <input
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Ask about quote, products, booking..."
-            />
+        <div className="chat-messages" aria-live="polite">
+          {chatMessages.map((msg, idx) => (
+            <motion.p
+              key={`${msg.role}-${idx}`}
+              className={`bubble ${msg.role}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {msg.text}
+            </motion.p>
+          ))}
+        </div>
+
+        <form className="chat-form" onSubmit={submitChat}>
+          <input
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            placeholder="Ask about quote, products, booking..."
+          />
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button type="submit" size="sm" variant="outline">
-              Send
+              <Send size={14} />
             </Button>
-          </form>
-        </aside>
-      )}
+          </motion.div>
+        </form>
+      </motion.aside>
     </div>
   );
 }
