@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, Globe } from "lucide-react";
 
 type Language = "en" | "fr" | "rw";
 type ThemeMode = "dark" | "light";
@@ -16,15 +16,13 @@ const copy = {
     products: "Products",
     about: "About",
     contact: "Contact",
-    gallery: "Gallery",
     request: "Request a Quote",
   },
   fr: {
     home: "Accueil",
     products: "Produits",
-    about: "A propos",
+    about: "À propos",
     contact: "Contact",
-    gallery: "Galerie",
     request: "Demander un devis",
   },
   rw: {
@@ -32,7 +30,6 @@ const copy = {
     products: "Ibicuruzwa",
     about: "Ibitwerekeye",
     contact: "Twandikire",
-    gallery: "Ifoto",
     request: "Saba igiciro",
   },
 } as const;
@@ -42,7 +39,6 @@ interface NavigationProps {
   setLanguage: (lang: Language) => void;
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
-  logoMissing?: boolean;
 }
 
 export function Navigation({
@@ -50,16 +46,15 @@ export function Navigation({
   setLanguage,
   mode,
   setMode,
-  logoMissing = false,
 }: NavigationProps) {
   const t = useMemo(() => copy[language], [language]);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // This ensures the navbar sticks and changes appearance on scroll
+  // Monitors scroll position to toggle the "Floating Capsule" design
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      if (window.scrollY > 20) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -73,146 +68,157 @@ export function Navigation({
     { href: "/", label: t.home },
     { href: "/about", label: t.about },
     { href: "/products", label: t.products },
-    { href: "/gallery", label: t.gallery },
     { href: "/contact", label: t.contact },
   ];
 
   return (
-    <>
-      {/* Spacer: Prevents content from jumping under the fixed navbar */}
-      <div className="h-0" /> 
-
-      <header 
-        className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-500 ease-in-out ${
+    <header 
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-in-out ${
+        scrolled ? "pt-4" : "pt-8"
+      }`}
+    >
+      <nav 
+        className={`max-w-6xl mx-auto px-6 h-16 flex items-center justify-between transition-all duration-500 ${
           scrolled 
-            ? "py-3 bg-[#010717]/85 backdrop-blur-xl border-b border-white/5 shadow-2xl" 
-            : "py-6 bg-transparent"
+            ? "bg-[#010717]/80 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.4)] mx-4 lg:mx-auto" 
+            : "bg-transparent border-transparent"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          
-          {/* --- BRAND / LOGO --- */}
-          <Link href="/" className="flex items-center gap-3 group relative z-[110]">
-            {!logoMissing && (
-              <div className="relative w-8 h-8 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg overflow-hidden transition-transform group-hover:scale-110">
-                 <Image
-                  src="/logo.png"
-                  alt="360 Hive logo"
-                  width={24}
-                  height={24}
-                  className="object-contain"
-                />
-              </div>
-            )}
-            <span className="text-xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-[#FF0066] to-[#200048] bg-clip-text text-transparent">
-              360 Hive
-            </span>
-          </Link>
-
-          {/* --- DESKTOP NAV LINKS (Standardized 14px) --- */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href}
-                className="text-[14px] font-medium text-gray-400 hover:text-white transition-all relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gradient-to-r from-[#FF0066] to-[#200048] group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
+        {/* --- BRAND / LOGO --- */}
+        <Link href="/" className="flex items-center gap-2 group relative z-[10001]">
+          <div className="relative w-8 h-8 transition-transform duration-500 group-hover:rotate-[10deg]">
+            <Image
+              src="/logo.png"
+              alt="360 Hive logo"
+              fill
+              className="object-contain"
+            />
           </div>
+          <span className="text-lg font-black tracking-[-0.05em] uppercase italic bg-gradient-to-r from-[#FF0066] to-[#200048] bg-clip-text text-transparent">
+            360 Hive
+          </span>
+        </Link>
 
-          {/* --- DESKTOP ACTIONS --- */}
-          <div className="hidden lg:flex items-center gap-5">
-            {/* Language Switcher */}
-            <div className="flex bg-white/5 border border-white/10 rounded-full p-1 border-opacity-50">
+        {/* --- CENTERED NAVIGATION (Desktop) --- */}
+        <div className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.href} 
+              href={link.href}
+              className="text-[12px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors relative group"
+            >
+              {link.label}
+              <motion.span 
+                className="absolute -bottom-1 left-0 h-[1px] bg-[#FF0066]" 
+                initial={{ width: 0 }}
+                whileHover={{ width: "100%" }}
+                transition={{ duration: 0.3 }}
+              />
+            </Link>
+          ))}
+        </div>
+
+        {/* --- RIGHT ACTIONS (Desktop) --- */}
+        <div className="hidden lg:flex items-center gap-4">
+          {/* Language Switcher */}
+          <div className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/5 rounded-full">
+            <Globe size={12} className="text-gray-500" />
+            <div className="flex gap-2">
               {(["en", "fr", "rw"] as const).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`px-3 py-1 text-[10px] font-bold rounded-full transition-all ${
-                    language === lang 
-                      ? "bg-gradient-to-r from-[#FF0066] to-[#200048] text-white shadow-lg" 
-                      : "text-gray-500 hover:text-white"
+                  className={`text-[10px] font-bold transition-all ${
+                    language === lang ? "text-[#FF0066]" : "text-gray-600 hover:text-gray-300"
                   }`}
                 >
                   {lang.toUpperCase()}
                 </button>
               ))}
             </div>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-white/10 hover:border-[#FF0066]/50 transition-all text-gray-400 hover:text-white bg-white/5"
-            >
-              {mode === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-
-            {/* CTA Button (Standardized 16px) */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button asChild className="bg-gradient-to-r from-[#FF0066] to-[#200048] text-white border-none rounded-full px-6 h-10 text-[13px] font-bold uppercase tracking-widest shadow-lg shadow-pink-500/10">
-                <Link href="/contact">{t.request}</Link>
-              </Button>
-            </motion.div>
           </div>
 
-          {/* --- MOBILE MENU TOGGLE --- */}
-          <button 
-            className="lg:hidden relative z-[110] p-2 text-white hover:bg-white/5 rounded-lg transition-colors" 
-            onClick={() => setIsOpen(!isOpen)}
+          {/* Mode Toggle */}
+          <button
+            onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+            className="p-2 text-gray-500 hover:text-white transition-colors"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {mode === "dark" ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
-          {/* --- MOBILE OVERLAY MENU --- */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, x: "100%" }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: "100%" }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="fixed inset-0 bg-[#010717] z-[105] flex flex-col pt-32 px-10 lg:hidden"
-              >
-                {/* Background Decor */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF0066] opacity-[0.05] blur-[100px] rounded-full pointer-events-none" />
-                
-                <div className="flex flex-col gap-6 relative z-10">
-                  {navLinks.map((link) => (
+          {/* CTA Button */}
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Button asChild className="bg-gradient-to-r from-[#FF0066] to-[#200048] text-white border-none rounded-full h-9 px-5 text-[10px] font-bold uppercase tracking-widest shadow-xl shadow-pink-500/10 transition-all">
+              <Link href="/contact">{t.request}</Link>
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* --- MOBILE TOGGLE --- */}
+        <button 
+          className="lg:hidden p-2 text-white relative z-[10001] hover:bg-white/5 rounded-lg transition-colors" 
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* --- CINEMATIC MOBILE OVERLAY --- */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-0 bg-[#010717] z-[10000] flex flex-col items-center justify-center p-10 lg:hidden"
+            >
+              {/* Background Glow for Mobile Menu */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#FF0066] opacity-[0.08] blur-[100px] rounded-full pointer-events-none" />
+
+              <div className="flex flex-col items-center gap-10 relative z-10">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
                     <Link 
-                      key={link.href} 
                       href={link.href} 
                       onClick={() => setIsOpen(false)}
-                      className="text-4xl font-light text-white hover:text-[#FF0066] transition-colors italic tracking-tighter"
+                      className="text-4xl font-light tracking-tighter text-white hover:text-[#FF0066] transition-colors italic uppercase"
                     >
                       {link.label}
                     </Link>
-                  ))}
-                </div>
-
-                <div className="mt-auto mb-12 space-y-8 relative z-10 border-t border-white/5 pt-10">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-600 text-xs">Interface</span>
-                    <button
-                      onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-                      className="flex items-center gap-2 px-4 py-2 border border-white/10 rounded-full text-xs text-white bg-white/5"
-                    >
-                      {mode === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-                      {mode === "dark" ? "Light" : "Dark"}
-                    </button>
+                  </motion.div>
+                ))}
+                
+                <motion.div 
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  transition={{ delay: 0.4 }}
+                  className="mt-16 flex flex-col items-center gap-8"
+                >
+                  <div className="flex gap-8 border-b border-white/10 pb-4 w-full justify-center">
+                    {["en", "fr", "rw"].map((l) => (
+                      <button 
+                        key={l}
+                        onClick={() => { setLanguage(l as Language); setIsOpen(false); }}
+                        className={`text-sm font-bold tracking-widest uppercase ${language === l ? "text-[#FF0066]" : "text-gray-500"}`}
+                      >
+                        {l}
+                      </button>
+                    ))}
                   </div>
-
-                  <Button asChild className="w-full bg-gradient-to-r from-[#FF0066] to-[#200048] h-14 rounded-2xl text-base font-bold uppercase tracking-widest shadow-xl shadow-pink-500/20">
+                  <Button asChild className="bg-gradient-to-r from-[#FF0066] to-[#200048] w-72 h-14 rounded-full text-xs font-bold uppercase tracking-widest shadow-2xl">
                     <Link href="/contact" onClick={() => setIsOpen(false)}>{t.request}</Link>
                   </Button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </nav>
-      </header>
-    </>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </header>
   );
 }
