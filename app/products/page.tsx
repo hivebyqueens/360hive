@@ -1,13 +1,9 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
-import { Chatbot } from "@/components/layout/Chatbot";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 
 type Language = "en" | "fr" | "rw";
-type ThemeMode = "dark" | "light";
 
 const copy = {
   en: {
@@ -43,35 +39,10 @@ const productCards = [
 ];
 
 export default function ProductsPage() {
-  const [language, setLanguage] = useState<Language>("en");
-  const [mode, setMode] = useState<ThemeMode>("dark");
-  const [logoMissing, setLogoMissing] = useState(false);
-
+  const language: Language = "en";
   const t = useMemo(() => copy[language], [language]);
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", mode);
-  }, [mode]);
-
-  useEffect(() => {
-    const handleImageError = () => setLogoMissing(true);
-    const img = new window.Image();
-    img.onload = () => setLogoMissing(false);
-    img.onerror = handleImageError;
-    img.src = "/logo.png";
-  }, []);
-
   return (
-    <div className="queen-shell">
-      <Navigation
-        language={language}
-        setLanguage={setLanguage}
-        mode={mode}
-        setMode={setMode}
-        logoMissing={logoMissing}
-      />
-
-      <main className="content">
         <motion.section
           className="products"
           initial={{ opacity: 0, y: 20 }}
@@ -103,10 +74,5 @@ export default function ProductsPage() {
             ))}
           </div>
         </motion.section>
-      </main>
-
-      <Footer language={language} setLanguage={setLanguage} mode={mode} setMode={setMode} />
-      <Chatbot language={language} />
-    </div>
   );
 }

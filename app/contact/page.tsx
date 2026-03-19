@@ -1,14 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo, FormEvent } from "react";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
-import { Chatbot } from "@/components/layout/Chatbot";
+import { useMemo, useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 type Language = "en" | "fr" | "rw";
-type ThemeMode = "dark" | "light";
 
 const copy = {
   en: {
@@ -47,24 +43,9 @@ const copy = {
 } as const;
 
 export default function ContactPage() {
-  const [language, setLanguage] = useState<Language>("en");
-  const [mode, setMode] = useState<ThemeMode>("dark");
-  const [logoMissing, setLogoMissing] = useState(false);
+  const language: Language = "en";
   const [formSent, setFormSent] = useState(false);
-
   const t = useMemo(() => copy[language], [language]);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", mode);
-  }, [mode]);
-
-  useEffect(() => {
-    const handleImageError = () => setLogoMissing(true);
-    const img = new window.Image();
-    img.onload = () => setLogoMissing(false);
-    img.onerror = handleImageError;
-    img.src = "/logo.png";
-  }, []);
 
   const submitContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,16 +55,6 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="queen-shell">
-      <Navigation
-        language={language}
-        setLanguage={setLanguage}
-        mode={mode}
-        setMode={setMode}
-        logoMissing={logoMissing}
-      />
-
-      <main className="content">
         <motion.section
           className="contact"
           initial={{ opacity: 0, y: 20 }}
@@ -138,10 +109,5 @@ export default function ContactPage() {
             {formSent && <p className="success">{t.sent}</p>}
           </motion.form>
         </motion.section>
-      </main>
-
-      <Footer language={language} setLanguage={setLanguage} mode={mode} setMode={setMode} />
-      <Chatbot language={language} />
-    </div>
   );
 }
