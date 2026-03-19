@@ -2,474 +2,492 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 
-type Language = "en" | "fr";
+type Language = "en" | "fr" | "rw";
 type ThemeMode = "dark" | "light";
+type ChatMessage = { role: "assistant" | "user"; text: string };
 
-type ChatMessage = {
-  role: "user" | "assistant";
-  text: string;
-};
-
-const translations = {
+const copy = {
   en: {
-    navAbout: "About",
-    navServices: "Services",
-    navProducts: "Products",
-    navContact: "Contact",
-    slogan: "We build digital ecosystems that grow brands with precision.",
-    heroTitle: "Core Services for 360 Hive by Queen",
-    heroText:
-      "From software development and media production to marketing and training, we combine strategy, motion, and execution in one hive.",
-    quote: "Request a Quote",
-    book: "Book a Call",
-    intro: "Intro Video",
-    introText:
-      "A high-energy brand intro space ready for your launch reel, motion graphics, and campaign stories.",
-    aboutTitle: "About Us",
+    home: "Home",
+    products: "Products",
+    about: "About",
+    contact: "Contact",
+    request: "Request a Quote",
+    call: "Book a Call",
+    badge: "The Sovereign Pulse",
+    heroTitle: "Empowering Innovation Through Collaboration",
+    heroSubtitle:
+      "A 360 deg ecosystem where creativity, technology, and leadership meet to redefine digital growth.",
+    aboutTitle: "The Hive Philosophy",
     aboutText:
-      "360 Hive by Queen is a multidisciplinary digital studio helping businesses design, market, and scale impactful products.",
-    mission: "Mission",
-    missionText:
-      "Build meaningful digital value through design-led engineering, creative storytelling, and measurable growth.",
-    vision: "Vision",
-    visionText:
-      "Become the most trusted ecosystem partner for ambitious brands in Africa and beyond.",
-    servicesTitle: "Core Services",
-    productsTitle: "Our Products",
-    teamTitle: "Team",
+      "360 Hive by Queens is a dynamic platform connecting innovation, business, and creativity into one powerful ecosystem led by bold women.",
+    productsTitle: "Elite Offerings",
     testimonialsTitle: "Testimonials",
-    photosTitle: "Photo Moments",
-    contactTitle: "Contact Us",
-    chatbotTitle: "Hive Chatbot",
-    chatbotHint: "Local knowledge assistant. No external API.",
-    formName: "Name",
-    formEmail: "Email",
-    formService: "Service needed",
+    contactTitle: "Let us build something powerful together",
+    contactText:
+      "Connect with the Hive for strategy, creative production, and scalable digital execution.",
+    formName: "Full Name",
+    formEmail: "Email Address",
     formMessage: "Message",
-    submit: "Send Request",
-    sent: "Your request has been recorded. We will contact you shortly.",
-    copyright: "2026 360 Hive by Queen. All rights reserved.",
+    send: "Send Sovereign Message",
+    sent: "Message received. We will respond shortly.",
+    mediaTitle: "Visual Showcase",
+    chat: "Chat with us",
+    chatTitle: "Hive Assistant",
+    chatHint: "Local assistant powered by portfolio data only.",
+    copyright: "Copyright 2026 360 Hive by Queens. All rights reserved.",
   },
   fr: {
-    navAbout: "A propos",
-    navServices: "Services",
-    navProducts: "Produits",
-    navContact: "Contact",
-    slogan: "Nous construisons des ecosystemes digitaux qui font grandir les marques.",
-    heroTitle: "Services clés de 360 Hive by Queen",
-    heroText:
-      "Du developpement logiciel a la production media, nous reunissons strategie, motion et execution.",
-    quote: "Demander un devis",
-    book: "Reserver un appel",
-    intro: "Video d'introduction",
-    introText:
-      "Un espace premium pour votre video de marque, vos motion graphics et vos campagnes.",
-    aboutTitle: "A propos de nous",
+    home: "Accueil",
+    products: "Produits",
+    about: "A propos",
+    contact: "Contact",
+    request: "Demander un devis",
+    call: "Reserver un appel",
+    badge: "Le Pulse Souverain",
+    heroTitle: "Donner de la puissance a l innovation par la collaboration",
+    heroSubtitle:
+      "Un ecosysteme 360 deg ou creativite, technologie et leadership se rencontrent.",
+    aboutTitle: "La Philosophie Hive",
     aboutText:
-      "360 Hive by Queen est un studio digital multidisciplinaire qui aide les marques a creer et a scaler.",
-    mission: "Mission",
-    missionText:
-      "Creer de la valeur digitale via l'ingenierie, le design et le storytelling creatif.",
-    vision: "Vision",
-    visionText:
-      "Devenir le partenaire de confiance des marques ambitieuses en Afrique et au-dela.",
-    servicesTitle: "Services principaux",
-    productsTitle: "Nos produits",
-    teamTitle: "Equipe",
+      "360 Hive by Queens connecte innovation, business et creativite dans un ecosysteme unique porte par des femmes leaders.",
+    productsTitle: "Offres Elite",
     testimonialsTitle: "Temoignages",
-    photosTitle: "Moments photo",
-    contactTitle: "Nous contacter",
-    chatbotTitle: "Chatbot Hive",
-    chatbotHint: "Assistant local, sans API externe.",
-    formName: "Nom",
-    formEmail: "Email",
-    formService: "Service souhaite",
+    contactTitle: "Construisons quelque chose de puissant ensemble",
+    contactText:
+      "Contactez la Hive pour la strategie, la production creative et l execution digitale.",
+    formName: "Nom complet",
+    formEmail: "Adresse email",
     formMessage: "Message",
-    submit: "Envoyer",
-    sent: "Votre demande a ete enregistree. Nous vous contacterons bientot.",
-    copyright: "2026 360 Hive by Queen. Tous droits reserves.",
+    send: "Envoyer le message",
+    sent: "Message recu. Nous revenons vers vous rapidement.",
+    mediaTitle: "Vitrine Visuelle",
+    chat: "Discuter avec nous",
+    chatTitle: "Assistant Hive",
+    chatHint: "Assistant local base uniquement sur nos donnees.",
+    copyright: "Copyright 2026 360 Hive by Queens. Tous droits reserves.",
+  },
+  rw: {
+    home: "Ahabanza",
+    products: "Ibicuruzwa",
+    about: "Ibitwerekeye",
+    contact: "Twandikire",
+    request: "Saba igiciro",
+    call: "Teganya ikiganiro",
+    badge: "Sovereign Pulse",
+    heroTitle: "Duteza imbere udushya biciye mu bufatanye",
+    heroSubtitle:
+      "Uruhurirane rwa 360 deg aho ubuhanzi, ikoranabuhanga n ubuyobozi bihurira.",
+    aboutTitle: "Inkingi za Hive",
+    aboutText:
+      "360 Hive by Queens ihuza udushya, ubucuruzi n ubuhanzi muri ecosystem ikomeye iyobowe n abagore.",
+    productsTitle: "Serivisi z Intangarugero",
+    testimonialsTitle: "Ubuhamya",
+    contactTitle: "Twubake ikintu gikomeye hamwe",
+    contactText:
+      "Twandikire ku bijyanye na strategy, creative production, no gukura kwa digital.",
+    formName: "Amazina yose",
+    formEmail: "Imeyili",
+    formMessage: "Ubutumwa",
+    send: "Ohereza ubutumwa",
+    sent: "Ubutumwa bwakiriwe. Turagusubiza vuba.",
+    mediaTitle: "Ibyerekanwa bya Visual",
+    chat: "Vugana natwe",
+    chatTitle: "Umufasha Hive",
+    chatHint: "Umufasha ukoresha amakuru ya portfolio gusa.",
+    copyright: "Copyright 2026 360 Hive by Queens. Uburenganzira bwose burarinzwe.",
   },
 } as const;
 
-const coreServices = [
+const features = [
+  { icon: "CO", title: "Collaboration", text: "Unified teams and aligned execution across products and campaigns." },
+  { icon: "IN", title: "Innovation", text: "Future-ready solutions blending aesthetics and technical precision." },
+  { icon: "LE", title: "Leadership", text: "Women-led strategy with bold, accountable decision-making." },
+  { icon: "360", title: "Full Ecosystem", text: "One loop from ideation to launch, optimization, and growth." },
+];
+
+const productCards = [
   {
-    title: "Software & Web Development",
-    details: [
-      "Designing and developing websites, applications, and databases.",
-      "Customizing software solutions to meet user needs.",
-      "Managing web platforms and searchable online systems.",
-    ],
+    key: "Ranik",
+    title: "Ranik - Videography",
+    text: "Translating brand essence into cinematic visual narratives.",
   },
   {
-    title: "Digital Content & Media Production",
-    details: [
-      "Video and media post-production: editing, subtitles, graphics, and animation.",
-      "Creation of digital and printed content: images, catalogs, and promotional materials.",
-    ],
+    key: "AR",
+    title: "Abiru Real Estate",
+    text: "Modern property experiences and lead-focused digital journeys.",
   },
   {
-    title: "Marketing & Advertising",
-    details: [
-      "Running marketing campaigns and videograph experiences.",
-      "Advertising services to attract and retain customers.",
-    ],
-  },
-  {
-    title: "Technical & Professional Services",
-    details: ["Technical consulting tailored to your business and platform stack."],
-  },
-  {
-    title: "Education & Training",
-    details: [
-      "Educational services, practical training, and digital learning support.",
-    ],
-  },
-  {
-    title: "Graphic Design",
-    details: [
-      "Visual content for branding, marketing communication, and campaign identity.",
-    ],
+    key: "RU",
+    title: "Rwanda Urology",
+    text: "Patient-centered communication with healthcare brand confidence.",
   },
 ];
 
-const products = [
+const testimonials = [
   {
-    name: "Ranik",
-    type: "Videograph",
-    text: "Cinematic campaign content and social-first video storytelling.",
-  },
-  {
-    name: "Abiru Real Estate",
-    type: "Property platform",
-    text: "Digital real-estate experiences, listings, and lead conversion workflows.",
-  },
-  {
-    name: "Rwanda Urology",
-    type: "Healthcare platform",
-    text: "Modern patient-focused digital communication and clinic web presence.",
-  },
-];
-
-const teamBios = [
-  {
-    name: "Queen",
-    role: "Founder & Creative Lead",
-    bio: "Leads strategy, branding, and growth direction across all 360 Hive initiatives.",
-  },
-  {
-    name: "Development Team",
-    role: "Engineering",
-    bio: "Builds secure web systems, automation flows, and performant digital products.",
-  },
-  {
-    name: "Media & Marketing Team",
-    role: "Production + Ads",
-    bio: "Produces campaign visuals, motion assets, and customer acquisition programs.",
-  },
-];
-
-const testimonialData = [
-  {
+    name: "Sarah Jenkins",
+    role: "Founder, TechVision",
     quote:
-      "360 Hive gave our brand a full digital identity and campaign pipeline in one place.",
-    author: "Client, Kigali",
+      "The Hive ecosystem transformed how we execute. Strategy and creativity now move as one.",
   },
   {
-    quote:
-      "Their team understands both technical execution and storytelling. Fast and reliable.",
-    author: "Startup Founder",
+    name: "Marcus Thorne",
+    role: "Director, RealPath",
+    quote: "Collaborating with Queens was our best strategic decision this year.",
   },
   {
-    quote:
-      "From design to launch to marketing, we felt like we had one strong in-house team.",
-    author: "SME Owner",
+    name: "Elena Rodriguez",
+    role: "CEO, Bloom Med",
+    quote: "They delivered a full roadmap, not just a service package.",
   },
 ];
 
-const localBotKnowledge: Array<{ keys: string[]; answer: string }> = [
+const visualTiles = [
+  "Cinematic Launch",
+  "Brand Campaign",
+  "Studio Production",
+  "Digital Experience",
+  "Health Innovation",
+  "Leadership Sessions",
+];
+
+const botKnowledge = [
   {
-    keys: ["quote", "pricing", "price", "cost"],
-    answer:
-      "For a quote, use the contact form and select your needed service. We respond with scope and timeline.",
+    keys: ["quote", "price", "pricing", "igiciro", "devis"],
+    answer: "Use Request a Quote and we will respond with scope, timeline, and pricing options.",
   },
   {
-    keys: ["book", "call", "meeting"],
-    answer:
-      "You can book a call using the Book a Call button in the hero section. We usually confirm within 24 hours.",
+    keys: ["book", "call", "meeting", "ikiganiro"],
+    answer: "Book a Call from the top navigation or hero section to schedule a strategy session.",
   },
   {
-    keys: ["service", "services"],
-    answer:
-      "Our services include development, media production, marketing, consulting, training, and graphic design.",
-  },
-  {
-    keys: ["products", "ranik", "abiru", "urology"],
-    answer:
-      "Current products include Ranik (videograph), Abiru Real Estate, and Rwanda Urology.",
+    keys: ["products", "ranik", "abiru", "urology", "ibicuruzwa"],
+    answer: "Our products include Ranik, Abiru Real Estate, and Rwanda Urology.",
   },
 ];
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
-  const [themeMode, setThemeMode] = useState<ThemeMode>("dark");
-  const [sent, setSent] = useState(false);
+  const [mode, setMode] = useState<ThemeMode>("dark");
+  const [logoMissing, setLogoMissing] = useState(false);
+  const [formSent, setFormSent] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
   const [chatInput, setChatInput] = useState("");
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      text: "Welcome to 360 Hive. Ask me about services, products, pricing, or booking.",
+      text: "Welcome to 360 Hive by Queens. Ask about quotes, products, or booking a call.",
     },
   ]);
 
-  const t = useMemo(() => translations[language], [language]);
+  const t = useMemo(() => copy[language], [language]);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", themeMode);
-  }, [themeMode]);
+    document.documentElement.setAttribute("data-theme", mode);
+  }, [mode]);
 
-  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const revealBlocks = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    revealBlocks.forEach((block) => io.observe(block));
+
+    return () => io.disconnect();
+  }, []);
+
+  const submitContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSent(true);
+    setFormSent(true);
     event.currentTarget.reset();
-    window.setTimeout(() => setSent(false), 3000);
+    window.setTimeout(() => setFormSent(false), 3000);
   };
 
-  const handleChat = (event: FormEvent<HTMLFormElement>) => {
+  const submitChat = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const trimmed = chatInput.trim();
-    if (!trimmed) {
+    const clean = chatInput.trim();
+    if (!clean) {
       return;
     }
 
-    const lower = trimmed.toLowerCase();
-    const matched = localBotKnowledge.find((entry) =>
-      entry.keys.some((keyword) => lower.includes(keyword)),
+    const result = botKnowledge.find((entry) =>
+      entry.keys.some((word) => clean.toLowerCase().includes(word)),
     );
-
-    const assistantText =
-      matched?.answer ??
-      "I can help with services, products, pricing, booking, and contact details. Try one of those keywords.";
 
     setChatMessages((prev) => [
       ...prev,
-      { role: "user", text: trimmed },
-      { role: "assistant", text: assistantText },
+      { role: "user", text: clean },
+      {
+        role: "assistant",
+        text:
+          result?.answer ??
+          "I can help with quote requests, products, booking, and contact details.",
+      },
     ]);
     setChatInput("");
   };
 
   return (
-    <div className="site-shell">
-      <div className="motion-orb motion-orb-one" aria-hidden="true" />
-      <div className="motion-orb motion-orb-two" aria-hidden="true" />
-      <div className="motion-grid" aria-hidden="true" />
+    <div className="queen-shell">
+      <div className="ambient ambient-one" aria-hidden="true" />
+      <div className="ambient ambient-two" aria-hidden="true" />
 
-      <header className="topbar">
-        <a href="#home" className="brand-anchor" aria-label="360 Hive by Queen">
-          <span className="brand-fallback">360 HIVE</span>
+      <nav className="top-nav">
+        <a className="brand" href="#home" aria-label="360 Hive by Queens">
+          {!logoMissing && (
+            <Image
+              src="/logo.png"
+              alt="360 Hive by Queens logo"
+              width={34}
+              height={34}
+              className="brand-logo"
+              unoptimized
+              onError={() => setLogoMissing(true)}
+            />
+          )}
+          <span>360 Hive by Queens</span>
         </a>
-        <nav className="topnav" aria-label="Main">
-          <a href="#about">{t.navAbout}</a>
-          <a href="#services">{t.navServices}</a>
-          <a href="#products">{t.navProducts}</a>
-          <a href="#contact">{t.navContact}</a>
-        </nav>
-        <div className="toolbar">
-          <div className="pill-switch" role="group" aria-label="Language selector">
-            <button
-              type="button"
-              className={language === "en" ? "active" : ""}
-              onClick={() => setLanguage("en")}
-            >
+
+        <div className="nav-links">
+          <a href="#home">{t.home}</a>
+          <a href="#products">{t.products}</a>
+          <a href="#about">{t.about}</a>
+          <a href="#contact">{t.contact}</a>
+        </div>
+
+        <div className="nav-actions">
+          <div className="lang-group" role="group" aria-label="Language switcher">
+            <button type="button" onClick={() => setLanguage("en")} className={language === "en" ? "active" : ""}>
               EN
             </button>
-            <button
-              type="button"
-              className={language === "fr" ? "active" : ""}
-              onClick={() => setLanguage("fr")}
-            >
+            <button type="button" onClick={() => setLanguage("fr")} className={language === "fr" ? "active" : ""}>
               FR
             </button>
+            <button type="button" onClick={() => setLanguage("rw")} className={language === "rw" ? "active" : ""}>
+              RW
+            </button>
           </div>
-          <button
+          <Button
             type="button"
+            size="sm"
+            variant="outline"
             className="mode-toggle"
-            onClick={() => setThemeMode((prev) => (prev === "dark" ? "light" : "dark"))}
+            onClick={() => setMode((p) => (p === "dark" ? "light" : "dark"))}
           >
-            {themeMode === "dark" ? "Light Mode" : "Dark Mode"}
-          </button>
+            {mode === "dark" ? "Light" : "Dark"}
+          </Button>
+          <Button asChild size="sm" variant="gradient" className="nav-cta">
+            <a href="#contact">{t.request}</a>
+          </Button>
         </div>
-      </header>
+      </nav>
 
-      <main id="home" className="main-content">
-        <section className="hero reveal">
-          <p className="eyebrow">360 Hive by Queen</p>
-          <h1>{t.heroTitle}</h1>
-          <p className="hero-slogan">{t.slogan}</p>
-          <p className="hero-text">{t.heroText}</p>
-          <div className="cta-row">
-            <a href="#contact" className="btn btn-primary">
-              {t.quote}
-            </a>
-            <a href="#contact" className="btn btn-secondary">
-              {t.book}
-            </a>
-          </div>
-        </section>
-
-        <section className="video-panel reveal" aria-label={t.intro}>
-          <div className="video-content">
-            <h2>{t.intro}</h2>
-            <p>{t.introText}</p>
-          </div>
-          <button type="button" className="play-btn" aria-label="Play intro video">
-            Play Reel
-          </button>
-        </section>
-
-        <section id="about" className="section reveal">
-          <h2>{t.aboutTitle}</h2>
-          <p className="section-lead">{t.aboutText}</p>
-          <div className="duo-cards">
-            <article className="glass-card">
-              <h3>{t.mission}</h3>
-              <p>{t.missionText}</p>
-            </article>
-            <article className="glass-card">
-              <h3>{t.vision}</h3>
-              <p>{t.visionText}</p>
-            </article>
-          </div>
-        </section>
-
-        <section id="services" className="section reveal">
-          <h2>{t.servicesTitle}</h2>
-          <div className="card-grid services-grid">
-            {coreServices.map((service) => (
-              <article className="glass-card service-card" key={service.title}>
-                <h3>{service.title}</h3>
-                <ul>
-                  {service.details.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="products" className="section reveal">
-          <h2>{t.productsTitle}</h2>
-          <div className="card-grid product-grid">
-            {products.map((product) => (
-              <article className="glass-card product-card" key={product.name}>
-                <p className="tag">{product.type}</p>
-                <h3>{product.name}</h3>
-                <p>{product.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section reveal">
-          <h2>{t.teamTitle}</h2>
-          <div className="card-grid team-grid">
-            {teamBios.map((member) => (
-              <article className="glass-card" key={member.name}>
-                <h3>{member.name}</h3>
-                <p className="tag">{member.role}</p>
-                <p>{member.bio}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section reveal">
-          <h2>{t.testimonialsTitle}</h2>
-          <div className="card-grid testimonial-grid">
-            {testimonialData.map((entry) => (
-              <article className="glass-card" key={entry.author}>
-                <p className="quote">
-                  &ldquo;{entry.quote}&rdquo;
-                </p>
-                <p className="tag">{entry.author}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section reveal">
-          <h2>{t.photosTitle}</h2>
-          <div className="photo-strip">
-            <div className="photo-tile">Campaign Shoot</div>
-            <div className="photo-tile">Studio Edit</div>
-            <div className="photo-tile">Brand Session</div>
-            <div className="photo-tile">Team Strategy</div>
-          </div>
-        </section>
-
-        <section id="contact" className="section contact-section reveal">
-          <div className="contact-pane glass-card">
-            <h2>{t.contactTitle}</h2>
-            <p>
-              Kigali, Rwanda<br />
-              hello@360hivebyqueen.com<br />
-              +250 7XX XXX XXX
-            </p>
-            <form className="contact-form" onSubmit={handleContactSubmit}>
-              <label>
-                {t.formName}
-                <input name="name" required />
-              </label>
-              <label>
-                {t.formEmail}
-                <input name="email" type="email" required />
-              </label>
-              <label>
-                {t.formService}
-                <input name="service" required />
-              </label>
-              <label>
-                {t.formMessage}
-                <textarea name="message" rows={4} required />
-              </label>
-              <button type="submit" className="btn btn-primary">
-                {t.submit}
-              </button>
-              {sent && <p className="status-ok">{t.sent}</p>}
-            </form>
+      <main className="content" id="home">
+        <section className="hero" data-reveal>
+          <div className="hero-copy">
+            <p className="pill">{t.badge}</p>
+            <h1>{t.heroTitle}</h1>
+            <p className="hero-subtitle">{t.heroSubtitle}</p>
+            <div className="hero-buttons">
+              <Button asChild variant="gradient">
+                <a href="#contact">{t.request}</a>
+              </Button>
+              <Button asChild variant="outline">
+                <a href="#contact">{t.call}</a>
+              </Button>
+            </div>
           </div>
 
-          <div className="chatbot-pane glass-card">
-            <h3>{t.chatbotTitle}</h3>
-            <p className="chatbot-hint">{t.chatbotHint}</p>
-            <div className="chat-stream" aria-live="polite">
-              {chatMessages.map((message, index) => (
-                <p
-                  key={`${message.role}-${index}`}
-                  className={message.role === "assistant" ? "bubble assistant" : "bubble user"}
-                >
-                  {message.text}
-                </p>
+          <div className="hero-visual" aria-hidden="true">
+            <div className="glow-halo" />
+            <div className="hive-cluster">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <span key={`hex-${i}`} className="hex" />
               ))}
             </div>
-            <form className="chat-entry" onSubmit={handleChat}>
-              <input
-                value={chatInput}
-                onChange={(event) => setChatInput(event.target.value)}
-                placeholder="Ask about services, products, quote, booking..."
-                aria-label="Chat message"
-              />
-              <button type="submit" className="btn btn-secondary">
-                Send
-              </button>
-            </form>
           </div>
+        </section>
+
+        <section className="about" id="about" data-reveal>
+          <h2>{t.aboutTitle}</h2>
+          <p>{t.aboutText}</p>
+          <div className="feature-grid">
+            {features.map((item) => (
+              <article key={item.title} className="feature-card">
+                <span className="feature-icon">{item.icon}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="products" id="products" data-reveal>
+          <h2>{t.productsTitle}</h2>
+          <div className="product-grid">
+            {productCards.map((card) => (
+              <article key={card.title} className="product-card">
+                <div className="product-media">{card.key}</div>
+                <div className="product-body">
+                  <h3>{card.title}</h3>
+                  <p>{card.text}</p>
+                  <a href="#contact" className="learn-more">
+                    Learn More
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="testimonials" data-reveal>
+          <h2>{t.testimonialsTitle}</h2>
+          <div className="testimonial-grid">
+            {testimonials.map((item) => (
+              <article key={item.name} className="testimonial-card">
+                <div className="person">
+                  <span className="avatar">{item.name.slice(0, 2).toUpperCase()}</span>
+                  <div>
+                    <h3>{item.name}</h3>
+                    <p>{item.role}</p>
+                  </div>
+                </div>
+                <blockquote>&ldquo;{item.quote}&rdquo;</blockquote>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="media" data-reveal>
+          <h2>{t.mediaTitle}</h2>
+          <div className="media-grid">
+            {visualTiles.map((tile) => (
+              <article key={tile} className="media-card">
+                <span>Featured</span>
+                <h3>{tile}</h3>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="contact" id="contact" data-reveal>
+          <div className="contact-info">
+            <h2>{t.contactTitle}</h2>
+            <p>{t.contactText}</p>
+            <ul>
+              <li>
+                <span>Email</span>
+                <a href="mailto:sovereign@360hive.queens">sovereign@360hive.queens</a>
+              </li>
+              <li>
+                <span>Phone</span>
+                <a href="tel:+250788000000">+250 788 000 000</a>
+              </li>
+              <li>
+                <span>Location</span>
+                <strong>Sector 4, Innovation District, Kigali</strong>
+              </li>
+            </ul>
+          </div>
+
+          <form className="contact-form" onSubmit={submitContact}>
+            <label>
+              {t.formName}
+              <input name="name" required />
+            </label>
+            <label>
+              {t.formEmail}
+              <input name="email" type="email" required />
+            </label>
+            <label>
+              {t.formMessage}
+              <textarea name="message" rows={5} required />
+            </label>
+            <Button type="submit" variant="gradient" className="form-submit">
+              {t.send}
+            </Button>
+            {formSent && <p className="success">{t.sent}</p>}
+          </form>
         </section>
       </main>
 
-      <footer className="footer">{t.copyright}</footer>
+      <footer className="footer">
+        <div>
+          <p className="brand-line">360 Hive by Queens</p>
+          <p>{t.copyright}</p>
+        </div>
+        <div className="footer-links">
+          <a href="#home">{t.home}</a>
+          <a href="#products">{t.products}</a>
+          <a href="#about">{t.about}</a>
+          <a href="#contact">{t.contact}</a>
+        </div>
+        <div className="socials">
+          <a href="#" aria-label="Website">
+            WEB
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            IN
+          </a>
+          <a href="#" aria-label="Instagram">
+            IG
+          </a>
+        </div>
+      </footer>
+
+      <Button
+        type="button"
+        variant="gradient"
+        className="chat-fab"
+        onClick={() => setChatOpen((v) => !v)}
+      >
+        {t.chat}
+      </Button>
+
+      {chatOpen && (
+        <aside className="chat-window" aria-label={t.chatTitle}>
+          <header>
+            <div>
+              <h3>{t.chatTitle}</h3>
+              <p>{t.chatHint}</p>
+            </div>
+            <Button type="button" variant="ghost" size="sm" onClick={() => setChatOpen(false)}>
+              Close
+            </Button>
+          </header>
+
+          <div className="chat-messages" aria-live="polite">
+            {chatMessages.map((msg, idx) => (
+              <p key={`${msg.role}-${idx}`} className={`bubble ${msg.role}`}>
+                {msg.text}
+              </p>
+            ))}
+          </div>
+
+          <form className="chat-form" onSubmit={submitChat}>
+            <input
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              placeholder="Ask about quote, products, booking..."
+            />
+            <Button type="submit" size="sm" variant="outline">
+              Send
+            </Button>
+          </form>
+        </aside>
+      )}
     </div>
   );
 }

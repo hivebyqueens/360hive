@@ -13,9 +13,9 @@ const bodyFont = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "360 Hive by Queen",
+  title: "360 Hive by Queens",
   description:
-    "Core services for software, media, design, education, and growth marketing.",
+    "Premium women-led ecosystem for products, media, and growth services.",
 };
 
 export default function RootLayout({
