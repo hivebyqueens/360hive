@@ -105,7 +105,7 @@ export default function ProductsPage() {
         </motion.section>
       </main>
 
-      <Footer language={language} />
+      <Footer language={language} setLanguage={setLanguage} mode={mode} setMode={setMode} />
       <Chatbot language={language} />
     </div>
   );
