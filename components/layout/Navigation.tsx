@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ const copy = {
     products: "Products",
     about: "About",
     contact: "Contact",
+    gallery: "Gallery",
     request: "Request a Quote",
   },
   fr: {
@@ -22,6 +23,7 @@ const copy = {
     products: "Produits",
     about: "A propos",
     contact: "Contact",
+    gallery: "Galerie",
     request: "Demander un devis",
   },
   rw: {
@@ -29,6 +31,7 @@ const copy = {
     products: "Ibicuruzwa",
     about: "Ibitwerekeye",
     contact: "Twandikire",
+    gallery: "Ifoto",
     request: "Saba igiciro",
   },
 } as const;
@@ -70,6 +73,7 @@ export function Navigation({
         <Link href="/">{t.home}</Link>
         <Link href="/about">{t.about}</Link>
         <Link href="/products">{t.products}</Link>
+        <Link href="/gallery">{t.gallery}</Link>
         <Link href="/contact">{t.contact}</Link>
       </div>
 

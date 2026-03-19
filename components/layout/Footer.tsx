@@ -11,6 +11,7 @@ const copy = {
     home: "Home",
     products: "Products",
     about: "About",
+    gallery: "Gallery",
     contact: "Contact",
     copyright: "Copyright 2026 360 Hive by Queens. All rights reserved.",
   },
@@ -18,6 +19,7 @@ const copy = {
     home: "Accueil",
     products: "Produits",
     about: "A propos",
+    gallery: "Galerie",
     contact: "Contact",
     copyright: "Copyright 2026 360 Hive by Queens. Tous droits reserves.",
   },
@@ -25,6 +27,7 @@ const copy = {
     home: "Ahabanza",
     products: "Ibicuruzwa",
     about: "Ibitwerekeye",
+    gallery: "Ifoto",
     contact: "Twandikire",
     copyright: "Copyright 2026 360 Hive by Queens. Uburenganzira bwose burarinzwe.",
   },
@@ -53,6 +56,7 @@ export function Footer({ language }: FooterProps) {
         <Link href="/">{t.home}</Link>
         <Link href="/products">{t.products}</Link>
         <Link href="/about">{t.about}</Link>
+        <Link href="/gallery">{t.gallery}</Link>
         <Link href="/contact">{t.contact}</Link>
       </div>
       <div className="socials">
