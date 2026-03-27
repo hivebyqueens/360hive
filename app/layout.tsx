@@ -50,7 +50,7 @@ export default function RootLayout({
             setLanguage={setLanguage}
             mode={mode}
             setMode={setMode}
-            logoMissing={logoMissing}
+           
           />
           <main className="content">
             {children}
