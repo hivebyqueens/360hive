@@ -213,7 +213,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* --- BOTTOM BAR --- */}
+       
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="flex items-center gap-4">
             <div className="w-2 h-2 rounded-full bg-[#FF0066] animate-pulse" />
