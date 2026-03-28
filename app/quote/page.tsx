@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Code2, Video, Megaphone, Lightbulb, GraduationCap, 
@@ -9,9 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// --- Types ---
 type ServiceId = 1 | 2 | 3 | 4 | 5 | 6;
-
 const services = [
   { id: 1, title: "Software & Web Development", icon: Code2, desc: "Apps, Databases & Custom Solutions" },
   { id: 2, title: "Digital Content & Media", icon: Video, desc: "Post-production & Visual Materials" },
@@ -20,7 +18,6 @@ const services = [
   { id: 5, title: "Education & Training", icon: GraduationCap, desc: "Digital Learning & Workshops" },
   { id: 6, title: "Graphic Design", icon: Palette, desc: "Branding & Visual Communication" },
 ];
-
 const budgetRanges = ["$100 – $500", "$500 – $2,000", "$2,000 – $10,000", "$10,000+"];
 const timelines = ["Urgent (1–7 days)", "Short (2–4 weeks)", "Medium (1–3 months)", "Flexible"];
 
