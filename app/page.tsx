@@ -223,50 +223,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="pt-24 pb-12 px-6 border-t border-white/5 bg-[#010717]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-16 mb-24">
-            <div className="col-span-2">
-              <h3 className="text-3xl font-black uppercase italic mb-8 tracking-tighter font-space">360 Hive</h3>
-              <p className="text-gray-500 max-w-sm mb-10 leading-relaxed font-medium">
-                Elevating global brands through the intersection of high-end software architecture and creative mastery.
-              </p>
-              <div className="flex gap-4">
-                {['TW', 'IG', 'LI', 'FB'].map(s => (
-                  <Link key={s} href="#" className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center text-[10px] font-black hover:bg-[#ff0066] hover:border-[#ff0066] transition-all">
-                    {s}
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-gray-400 font-space">Ecosystem</h4>
-              <ul className="space-y-4 text-sm text-gray-500 font-medium">
-                <li>Software Development</li>
-                <li>Content Production</li>
-                <li>Strategic Marketing</li>
-                <li>Technical Consulting</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-gray-400 font-space">Connection</h4>
-              <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
-                <input type="text" placeholder="Email" className="bg-transparent px-4 py-2 text-xs w-full focus:outline-none" />
-                <button className="bg-[#ff0066] p-3 rounded-lg"><Send size={16} /></button>
-              </div>
-            </div>
-          </div>
-          <div className="text-center text-[9px] text-gray-600 font-black uppercase tracking-[0.5em] font-space">
-            © 2024 360 Hive by Queen. Designed for the Future.
-          </div>
-        </div>
-      </footer>
+      
+       
     </main>
   );
 }
 
-// --- Sub-components & Data ---
 
 function ServiceCard({ title, desc, icon: Icon, index }: any) {
   return (
