@@ -117,7 +117,7 @@ export function Navigation({ language, setLanguage, mode, setMode }: NavigationP
                   asChild
                   className="bg-gradient-to-r from-[#FF0066] to-[#7000FF] hover:opacity-90 text-white border-none rounded-xl h-10 px-6 text-[11px] font-bold uppercase tracking-widest shadow-lg shadow-pink-500/20"
                 >
-                  <Link href="/contact">{t.request}</Link>
+                  <Link href="/quote">{t.request}</Link>
                 </Button>
               </motion.div>
             </div>
