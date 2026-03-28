@@ -1,126 +1,173 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import { 
   Code2, Video, Megaphone, Lightbulb, GraduationCap, 
-  Palette, ArrowRight, CheckCircle2, Quote, Send 
+  Palette, ArrowRight, CheckCircle2, Cpu, Zap, 
+  Activity, Terminal, Sparkles, Globe, MousePointer2,
+  ChevronRight,
+  Send
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// --- Components ---
+// --- High-End UI Components ---
 
-const Glow = ({ className }: { className?: string }) => (
-  <div className={`absolute rounded-full mix-blend-screen filter blur-[120px] opacity-50 animate-pulse ${className}`} />
-);
+const MouseGlow = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-const HexagonBackground = () => (
-  <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
-    <div className="absolute inset-0" 
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-30 opacity-40"
       style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 104l30-17.32V17.32L30 0 0 17.32v69.36L30 104zm0-5.773L5.001 83.66V20.34L30 5.773l24.999 14.567v63.32L30 98.227z' fill='%23ff0066' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-        backgroundSize: '80px'
+        background: useTransform(
+          [mouseX, mouseY],
+          ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(255, 0, 102, 0.15), transparent 80%)`
+        ),
       }}
     />
-  </div>
-);
+  );
+};
 
 export default function HomePage() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  // Hero Parallax
+  const heroTextY = useTransform(smoothProgress, [0, 0.3], [0, -100]);
+  const hiveScale = useTransform(smoothProgress, [0, 0.3], [1, 1.2]);
+  const opacityHero = useTransform(smoothProgress, [0, 0.25], [1, 0]);
+
   return (
-    <main className="relative bg-[#010717] text-white selection:bg-[#ff0066]/30 overflow-x-hidden">
-      <HexagonBackground />
+    <main ref={containerRef} className="relative bg-[#010717] text-white selection:bg-[#ff0066]/30 overflow-x-hidden font-jakarta">
+      <MouseGlow />
       
-      {/* --- HERO SECTION --- */}
-      <section className="relative min-h-screen flex items-center pt-20">
-        <Glow className="top-1/4 -left-20 w-[500px] h-[500px] bg-[#ff0066]" />
-        <Glow className="bottom-1/4 -right-20 w-[600px] h-[600px] bg-[#200048]" />
-
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <motion.span 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-block px-4 py-1.5 rounded-full border border-[#ff0066]/30 bg-[#ff0066]/10 text-[#ff0066] text-xs font-bold uppercase tracking-widest mb-6"
-            >
-              The Hive is Open
-            </motion.span>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8 italic uppercase">
-              Building <br />
-              <span className="bg-gradient-to-r from-[#ff0066] via-[#7000ff] to-[#ff0066] bg-clip-text text-transparent animate-gradient-x">
-                Digital Experiences
-              </span> <br />
-              That Matter
-            </h1>
-            <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-medium">
-              360 Hive by Queen is a high-performance creative agency specializing in software engineering, digital media, and strategic marketing.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-[#ff0066] hover:bg-[#ff0066]/90 rounded-full px-8 h-14 text-sm font-bold uppercase tracking-widest group">
-                Get Started <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-              </Button>
-              <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 rounded-full px-8 h-14 text-sm font-bold uppercase tracking-widest">
-                View Our Work
-              </Button>
-            </div>
-          </motion.div>
-
+      {/* 1. THE PRO MAX HERO SECTION */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        {/* Background Layer: Animated Grid */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:50px_50px]" />
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative flex justify-center items-center"
-          >
-            {/* Animated Hexagon Visual */}
-            <div className="relative w-full max-w-[500px] aspect-square">
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ 
-                      rotate: [0, 360],
-                      scale: [1, 1.1, 1],
-                    }}
-                    transition={{ 
-                      duration: 15 + (i * 5), 
-                      repeat: Infinity, 
-                      ease: "linear" 
-                    }}
-                    className="absolute inset-0 border border-white/5 rounded-[40px] md:rounded-[80px]"
-                    style={{ rotate: `${i * 30}deg` }}
-                  />
-                ))}
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <div className="w-64 h-64 bg-gradient-to-tr from-[#ff0066] to-[#200048] rounded-full blur-[80px] opacity-30 animate-pulse" />
-                   <Image 
-                    src="/logo.png" 
-                    alt="Hero Visual" 
-                    width={400} 
-                    height={400} 
-                    className="relative z-10 drop-shadow-[0_0_50px_rgba(255,0,102,0.5)]"
-                   />
+            animate={{ top: ["-10%", "110%"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#ff0066] to-transparent opacity-20 z-10"
+          />
+        </div>
+
+        {/* Central Neural Visual */}
+        <motion.div 
+          style={{ scale: hiveScale, opacity: opacityHero }}
+          className="absolute z-0 w-[900px] h-[900px] pointer-events-none opacity-20"
+        >
+          <svg className="w-full h-full animate-[spin_60s_linear_infinite]" viewBox="0 0 100 100">
+            <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" fill="none" stroke="#ff0066" strokeWidth="0.2" />
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#7000ff" strokeWidth="0.1" strokeDasharray="2 2" />
+          </svg>
+        </motion.div>
+
+        <div className="max-w-7xl mx-auto px-6 w-full relative z-20">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            
+            <motion.div 
+              style={{ y: heroTextY, opacity: opacityHero }}
+              className="lg:col-span-8"
+            >
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-3 mb-8 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/10 backdrop-blur-md"
+              >
+                <Activity size={16} className="text-[#ff0066] animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 font-sora">System_Online: 360_HIVE_OS</span>
+              </motion.div>
+
+              <h1 className="text-7xl md:text-[10rem] font-black italic uppercase leading-[0.8] tracking-tighter mb-10 font-space">
+                Architecting <br />
+                <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] via-[#7000ff] to-[#ff0066] animate-gradient-x">
+                  The Future
+                </span>
+              </h1>
+
+              <div className="flex flex-col md:flex-row items-center lg:items-start gap-10">
+                <p className="text-gray-400 text-lg md:text-xl max-w-md leading-relaxed font-medium">
+                  We dismantle the barriers between high-end software engineering and avant-garde creative production.
+                </p>
+                
+                <div className="flex flex-wrap gap-4">
+                  <Button size="lg" className="bg-[#ff0066] hover:bg-[#ff0066]/90 rounded-2xl px-8 h-16 text-[11px] font-black uppercase tracking-widest font-space group shadow-[0_10px_30px_rgba(255,0,102,0.3)]">
+                    Get Started <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" size={18} />
+                  </Button>
+                  <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 rounded-2xl px-8 h-16 text-[11px] font-black uppercase tracking-widest font-space">
+                    View Work
+                  </Button>
                 </div>
-            </div>
-          </motion.div>
+              </div>
+
+              {/* Founder Avatars - Humanizing the tech */}
+              <div className="mt-16 flex items-center gap-4">
+                 <div className="flex -space-x-3">
+                    {['dositha', 'nicole', 'fortune'].map((name) => (
+                      <div key={name} className="w-12 h-12 rounded-full border-2 border-[#010717] bg-gray-900 overflow-hidden relative">
+                         <Image src={`/image/${name}.jpeg`} alt={name} fill className="object-cover grayscale hover:grayscale-0 transition-all cursor-crosshair" />
+                      </div>
+                    ))}
+                 </div>
+                 <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">The Architects behind the hive</p>
+              </div>
+            </motion.div>
+
+            {/* Right Side: Data Feed Component */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="lg:col-span-4 hidden lg:block"
+            >
+              <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-[#ff0066] animate-pulse" />
+                <Terminal className="text-[#ff0066] mb-6" size={32} />
+                <div className="space-y-4 font-mono text-[10px] text-gray-500 uppercase tracking-tighter">
+                  <p className="text-white">&gt; INITIALIZING_CORE_MISSION...</p>
+                  <p>&gt; LOADING_STRUCTURED_SOFTWARE...</p>
+                  <p>&gt; SYNCING_CREATIVE_DNA...</p>
+                  <p>&gt; ACTIVE_CLIENTS: 50+</p>
+                  <p className="text-[#7000ff]">&gt; STATUS: PERFORMANCE_OPTIMIZED</p>
+                  <motion.div animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-[#ff0066]" />
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* --- SERVICES SECTION --- */}
-      <section className="py-24 relative overflow-hidden">
+      {/* 2. SERVICES SECTION */}
+      <section className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-4">Our Ecosystem</h2>
-              <p className="text-gray-500 text-lg">Comprehensive solutions across the digital lifecycle.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
+            <div className="max-w-xl">
+              <span className="text-[#ff0066] font-black uppercase tracking-[0.4em] text-[10px] mb-4 block font-space">The Ecosystem</span>
+              <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter font-space">Our Core Services</h2>
             </div>
-            <div className="h-px flex-1 bg-white/10 mx-10 hidden md:block" />
+            <p className="text-gray-500 max-w-xs text-right font-medium text-sm leading-relaxed">Comprehensive digital solutions across software, media, and growth.</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((s, i) => (
               <ServiceCard key={i} {...s} index={i} />
             ))}
@@ -128,97 +175,90 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- WHY CHOOSE US --- */}
-      <section className="py-24 bg-white/5 backdrop-blur-3xl border-y border-white/5">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+      {/* 3. PRINCIPLES SECTION */}
+      <section className="py-32 bg-white/[0.02] border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
           <div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter mb-12">The 360 Approach</h2>
+            <span className="text-[#ff0066] font-black uppercase tracking-[0.4em] text-[10px] mb-4 block font-space">Our DNA</span>
+            <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-16 font-space leading-none">The 360 Approach</h2>
             <div className="space-y-12">
               {principles.map((p, i) => (
                 <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   key={i} 
-                  className="flex gap-6"
+                  className="flex gap-8 group"
                 >
-                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff0066] to-[#200048] flex items-center justify-center text-xl font-bold">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-[2rem] bg-gradient-to-br from-[#ff0066] to-[#200048] flex items-center justify-center text-2xl font-black italic font-space shadow-[0_10px_20px_rgba(255,0,102,0.2)] group-hover:scale-110 transition-transform">
                     0{i+1}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">{p.title}</h3>
-                    <p className="text-gray-400 leading-relaxed">{p.desc}</p>
-                    <div className="mt-4 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: "100%" }}
-                        transition={{ duration: 1.5, delay: 0.2 }}
-                        className="h-full bg-[#ff0066]"
-                      />
-                    </div>
+                    <h3 className="text-3xl font-black italic uppercase font-space mb-2 group-hover:text-[#ff0066] transition-colors">{p.title}</h3>
+                    <p className="text-gray-400 leading-relaxed font-medium">{p.desc}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
           <div className="relative group">
-            <div className="absolute -inset-4 bg-gradient-to-tr from-[#ff0066] to-[#200048] rounded-[2rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
-            <div className="relative rounded-[2rem] overflow-hidden border border-white/10 aspect-square lg:aspect-auto lg:h-[600px]">
-              <Image src="/team-working.jpg" alt="Innovation" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+            <div className="absolute -inset-4 bg-gradient-to-tr from-[#ff0066] to-[#200048] rounded-[3rem] blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
+            <div className="relative rounded-[3.5rem] overflow-hidden border border-white/10 aspect-[4/5] md:aspect-auto md:h-[700px]">
+              <Image src="/team-working.jpg" alt="Innovation" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- CALL TO ACTION --- */}
-      <section className="py-32 relative text-center">
-        <Glow className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#ff0066]/20" />
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter mb-10">
-            Let’s Build Something <br />
-            <span className="text-[#ff0066]">Great Together</span>
+      {/* 4. FINAL CTA */}
+      <section className="py-40 px-6 relative text-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#ff0066]/10 blur-[150px] rounded-full" />
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h2 className="text-6xl md:text-[8rem] font-black italic uppercase tracking-tighter leading-none mb-12 font-space">
+            Ready to <br />
+            <span className="text-[#ff0066]">Initialize?</span>
           </h2>
-          <Button size="lg" className="bg-white text-black hover:bg-gray-200 rounded-full px-12 h-16 text-sm font-black uppercase tracking-widest">
-            Contact Us Now
+          <Button size="lg" className="bg-white text-black hover:bg-[#ff0066] hover:text-white rounded-2xl px-16 h-20 text-xs font-black uppercase tracking-[0.3em] font-space transition-all shadow-2xl shadow-white/5 group">
+            Connect Now <ChevronRight className="ml-2 group-hover:translate-x-2 transition-transform" />
           </Button>
         </div>
       </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="pt-24 pb-12 border-t border-white/5 relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-12 mb-20">
+      {/* FOOTER */}
+      <footer className="pt-24 pb-12 px-6 border-t border-white/5 bg-[#010717]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-16 mb-24">
             <div className="col-span-2">
-              <h3 className="text-2xl font-black uppercase italic mb-6 tracking-tighter">360 Hive</h3>
-              <p className="text-gray-500 max-w-sm mb-8 leading-relaxed">
-                Elevating brands through the intersection of advanced technology and creative mastery.
+              <h3 className="text-3xl font-black uppercase italic mb-8 tracking-tighter font-space">360 Hive</h3>
+              <p className="text-gray-500 max-w-sm mb-10 leading-relaxed font-medium">
+                Elevating global brands through the intersection of high-end software architecture and creative mastery.
               </p>
               <div className="flex gap-4">
                 {['TW', 'IG', 'LI', 'FB'].map(s => (
-                  <Link key={s} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold hover:bg-[#ff0066] hover:border-[#ff0066] transition-all">
+                  <Link key={s} href="#" className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center text-[10px] font-black hover:bg-[#ff0066] hover:border-[#ff0066] transition-all">
                     {s}
                   </Link>
                 ))}
               </div>
             </div>
             <div>
-              <h4 className="font-bold uppercase tracking-widest text-xs mb-6 text-gray-400">Services</h4>
-              <ul className="space-y-4 text-sm text-gray-500">
-                <li>Development</li>
-                <li>Production</li>
-                <li>Marketing</li>
-                <li>Consulting</li>
+              <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-gray-400 font-space">Ecosystem</h4>
+              <ul className="space-y-4 text-sm text-gray-500 font-medium">
+                <li>Software Development</li>
+                <li>Content Production</li>
+                <li>Strategic Marketing</li>
+                <li>Technical Consulting</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold uppercase tracking-widest text-xs mb-6 text-gray-400">Newsletter</h4>
-              <div className="flex gap-2">
-                <input type="text" placeholder="Your email" className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm w-full focus:outline-none focus:border-[#ff0066]" />
-                <button className="bg-[#ff0066] p-2 rounded-lg"><Send size={18} /></button>
+              <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-gray-400 font-space">Connection</h4>
+              <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
+                <input type="text" placeholder="Email" className="bg-transparent px-4 py-2 text-xs w-full focus:outline-none" />
+                <button className="bg-[#ff0066] p-3 rounded-lg"><Send size={16} /></button>
               </div>
             </div>
           </div>
-          <div className="text-center text-xs text-gray-600 font-bold uppercase tracking-[0.3em]">
-            © 2024 360 Hive by Queen. All Rights Reserved.
+          <div className="text-center text-[9px] text-gray-600 font-black uppercase tracking-[0.5em] font-space">
+            © 2024 360 Hive by Queen. Designed for the Future.
           </div>
         </div>
       </footer>
@@ -233,20 +273,20 @@ function ServiceCard({ title, desc, icon: Icon, index }: any) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -10 }}
-      className="group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-[#ff0066]/50 transition-all relative overflow-hidden"
+      className="group p-10 rounded-[3rem] bg-white/5 border border-white/5 hover:border-[#ff0066]/50 transition-all relative overflow-hidden"
     >
-      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
-        <Icon size={120} />
+      <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-20 transition-opacity group-hover:scale-110 duration-700">
+        <Icon size={140} />
       </div>
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff0066]/20 to-[#200048]/20 border border-[#ff0066]/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-        <Icon className="text-[#ff0066]" size={28} />
+      <div className="w-16 h-16 rounded-2xl bg-[#ff0066]/10 border border-[#ff0066]/20 flex items-center justify-center mb-10 group-hover:bg-[#ff0066] group-hover:text-white transition-all duration-500">
+        <Icon size={32} />
       </div>
-      <h3 className="text-2xl font-bold mb-4">{title}</h3>
-      <p className="text-gray-400 leading-relaxed text-sm mb-6">{desc}</p>
-      <Link href="#" className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-[#ff0066] group-hover:gap-3 transition-all">
-        Learn More <ArrowRight size={14} className="ml-2" />
+      <h3 className="text-3xl font-black italic uppercase font-space mb-4">{title}</h3>
+      <p className="text-gray-400 leading-relaxed text-sm mb-8 font-medium">{desc}</p>
+      <Link href="#" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.3em] text-[#ff0066] group-hover:gap-4 transition-all">
+        Explore <ArrowRight size={14} className="ml-2" />
       </Link>
     </motion.div>
   );
@@ -263,6 +303,6 @@ const services = [
 
 const principles = [
   { title: "Structured Software", desc: "Clean architecture and modular codebases designed for longevity and infinite scalability." },
-  { title: "Full Design Approach", desc: "A holistic design philosophy where aesthetics and functionality exist in perfect harmony." },
+  { title: "Full Design Intelligence", desc: "Design is strategy made visible. Every pixel serves a function in the user experience." },
   { title: "Full Functionality", desc: "Zero-compromise performance ensuring your digital assets work flawlessly across all platforms." },
 ];
