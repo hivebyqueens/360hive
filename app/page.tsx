@@ -12,6 +12,7 @@ import {
   Send
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ServiceCard } from "@/components/layout/ServiceCard";
 
 // --- High-End UI Components ---
 
@@ -223,10 +224,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      
+              
        
     </main>
   );
 }
 
 
+
+
+const services = [
+  { icon: Code2, title: "Software & Web", desc: "Crafting robust, scalable applications and high-end digital experiences built on modern stacks." },
+  { icon: Video, title: "Media Production", desc: "Cinematic storytelling and high-quality digital content production that captures brand essence." },
+  { icon: Megaphone, title: "Marketing & Ad", desc: "Data-driven strategies and disruptive advertising campaigns to scale your digital presence." },
+  { icon: Lightbulb, title: "Consulting", desc: "Deep-tech advisory and strategic business consulting to navigate the digital landscape." },
+  { icon: GraduationCap, title: "Training", desc: "Specialized workshops and technical training programs to empower your internal teams." },
+  { icon: Palette, title: "Graphic Design", desc: "Avant-garde visual identity and UI/UX design that defines industry-leading brands." },
+];
+
+const principles = [
+  { title: "Structured Software", desc: "Clean architecture and modular codebases designed for longevity and infinite scalability." },
+  { title: "Full Design Intelligence", desc: "Design is strategy made visible. Every pixel serves a function in the user experience." },
+  { title: "Full Functionality", desc: "Zero-compromise performance ensuring your digital assets work flawlessly across all platforms." },
+];
