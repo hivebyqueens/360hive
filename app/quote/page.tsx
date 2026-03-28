@@ -127,10 +127,10 @@ export default function RequestQuote() {
                   <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                     <h2 className="text-3xl font-black italic uppercase mb-8">The Specifics</h2>
                     <div className="grid md:grid-cols-2 gap-8 mb-8">
-                      <FormInput label="Full Name" value={formData.name} onChange={v => setFormData({...formData, name: v})} placeholder="John Doe" />
-                      <FormInput label="Email Address" type="email" value={formData.email} onChange={v => setFormData({...formData, email: v})} placeholder="john@example.com" />
-                      <FormInput label="Phone (Optional)" value={formData.phone} onChange={v => setFormData({...formData, phone: v})} placeholder="+250..." />
-                      <FormInput label="Company (Optional)" value={formData.company} onChange={v => setFormData({...formData, company: v})} placeholder="HIVE Inc." />
+                      <FormInput label="Full Name" value={formData.name} onChange={(v: string) => setFormData({...formData, name: v})} placeholder="John Doe" />
+                      <FormInput label="Email Address" type="email" value={formData.email} onChange={(v: string) => setFormData({...formData, email: v})} placeholder="john@example.com" />
+                      <FormInput label="Phone (Optional)" value={formData.phone} onChange={(v: string) => setFormData({...formData, phone: v})} placeholder="+250..." />
+                      <FormInput label="Company (Optional)" value={formData.company} onChange={(v: string) => setFormData({...formData, company: v})} placeholder="HIVE Inc." />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Project Description</label>

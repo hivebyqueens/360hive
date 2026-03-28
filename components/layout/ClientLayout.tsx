@@ -37,7 +37,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   }, []);
 
   return (
-    <body className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>
+    <div className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>
       <div className="queen-shell">
         <Navigation
           language={language}
@@ -49,6 +49,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <Footer />
         <Chatbot language={language} />
       </div>
-    </body>
+    </div>
   );
 }
