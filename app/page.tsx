@@ -51,7 +51,7 @@ export default function HomePage() {
 
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
-  // Hero Parallax
+
   const heroTextY = useTransform(smoothProgress, [0, 0.3], [0, -100]);
   const hiveScale = useTransform(smoothProgress, [0, 0.3], [1, 1.2]);
   const opacityHero = useTransform(smoothProgress, [0, 0.25], [1, 0]);
@@ -210,7 +210,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. FINAL CTA */}
+   
       <section className="py-40 px-6 relative text-center">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#ff0066]/10 blur-[150px] rounded-full" />
         <div className="max-w-4xl mx-auto relative z-10">
