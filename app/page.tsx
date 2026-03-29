@@ -60,9 +60,9 @@ export default function HomePage() {
     <main ref={containerRef} className="relative bg-[#010717] text-white selection:bg-[#ff0066]/30 overflow-x-hidden font-jakarta">
       <MouseGlow />
       
-      {/* 1. THE PRO MAX HERO SECTION */}
+
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Background Layer: Animated Grid */}
+      
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:50px_50px]" />
           <motion.div 
@@ -72,7 +72,7 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Central Neural Visual */}
+       
         <motion.div 
           style={{ scale: hiveScale, opacity: opacityHero }}
           className="absolute z-0 w-[900px] h-[900px] pointer-events-none opacity-20"
