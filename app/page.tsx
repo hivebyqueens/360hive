@@ -112,12 +112,17 @@ export default function HomePage() {
                 </p>
                 
                 <div className="flex flex-wrap gap-4">
-                  <Button size="lg" className="bg-[#ff0066] hover:bg-[#ff0066]/90 rounded-2xl px-8 h-16 text-[11px] font-black uppercase tracking-widest font-space group shadow-[0_10px_30px_rgba(255,0,102,0.3)]">
+                  <Link href="/quote">
+                   <Button size="lg" className="bg-[#ff0066] hover:bg-[#ff0066]/90 rounded-2xl px-8 h-16 text-[11px] font-black uppercase tracking-widest font-space group shadow-[0_10px_30px_rgba(255,0,102,0.3)]">
                     Get Started <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" size={18} />
                   </Button>
+                  </Link>
+                 <Link href="/products">
                   <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 rounded-2xl px-8 h-16 text-[11px] font-black uppercase tracking-widest font-space">
                     View Work
                   </Button>
+                 </Link>
+                 
                 </div>
               </div>
 
