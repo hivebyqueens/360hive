@@ -126,7 +126,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Founder Avatars - Humanizing the tech */}
+             
               <div className="mt-16 flex items-center gap-4">
                  <div className="flex -space-x-3">
                     {['dositha', 'nicole', 'fortune'].map((name) => (
@@ -139,7 +139,7 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Right Side: Data Feed Component */}
+          
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -162,13 +162,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. SERVICES SECTION */}
+  
       <section className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
             <div className="max-w-xl">
               <span className="text-[#ff0066] font-black uppercase tracking-[0.4em] text-[10px] mb-4 block font-space">The Ecosystem</span>
-              <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter font-space">Our Core Services</h2>
+              <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter font-space">Our Core Services</h2>
             </div>
             <p className="text-gray-500 max-w-xs text-right font-medium text-sm leading-relaxed">Comprehensive digital solutions across software, media, and growth.</p>
           </div>
