@@ -96,10 +96,10 @@ export default function HomePage() {
                 className="flex items-center gap-3 mb-8 bg-white/5 w-fit px-4 py-2 rounded-full border border-white/10 backdrop-blur-md"
               >
                 <Activity size={16} className="text-[#ff0066] animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 font-sora">System_Online: 360_HIVE_OS</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 font-sora">System_Online: 360 Hive by Queens</span>
               </motion.div>
 
-              <h1 className="text-7xl md:text-[10rem] font-black italic uppercase leading-[0.8] tracking-tighter mb-10 font-space">
+              <h1 className="text-4xl md:text-6xl font-black italic uppercase leading-[0.8] tracking-tighter mb-10 font-space">
                 Architecting <br />
                 <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] via-[#7000ff] to-[#ff0066] animate-gradient-x">
                   The Future
