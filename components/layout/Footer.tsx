@@ -169,7 +169,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* COL 3 & 4: CAPABILITIES (NEURAL DATA LIST) */}
+        
           <div className="lg:col-span-2 lg:pl-10">
             <h4 className="text-white text-[10px] font-black uppercase tracking-[0.5em] mb-12 opacity-30">Core Operations</h4>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
