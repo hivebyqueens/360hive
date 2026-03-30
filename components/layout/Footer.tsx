@@ -124,10 +124,10 @@ export function Footer() {
           </form>
         </motion.div>
 
-        {/* --- MAIN GRID SYSTEM --- */}
+     
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-40">
           
-          {/* COL 1: IDENTITY */}
+        
           <div className="space-y-10">
             <div className="relative group inline-block">
                <h2 className="text-4xl font-black tracking-tighter uppercase italic bg-gradient-to-br from-[#FF0066] to-[#7000ff] bg-clip-text text-transparent font-space">
