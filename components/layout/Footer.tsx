@@ -82,7 +82,7 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* --- HERO NEWSLETTER SECTION --- */}
+      
         <motion.div 
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
           className="mb-40 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-16"
