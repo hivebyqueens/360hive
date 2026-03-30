@@ -154,7 +154,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* COL 2: NAVIGATION */}
+        
           <div className="lg:pl-10">
             <h4 className="text-white text-[10px] font-black uppercase tracking-[0.5em] mb-12 opacity-30">Archive</h4>
             <ul className="space-y-6">
