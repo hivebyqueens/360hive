@@ -1,54 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Chatbot } from "@/components/layout/Chatbot";
 import { Sora, Manrope } from "next/font/google";
+import { AppProvider, useApp } from "@/lib/i18n-context";
 
-type Language = "en" | "fr" | "rw";
-type ThemeMode = "dark" | "light";
+const headingFont = Sora({ variable: "--font-heading", subsets: ["latin"] });
+const bodyFont = Manrope({ variable: "--font-body", subsets: ["latin"] });
 
-const headingFont = Sora({
-  variable: "--font-heading",
-  subsets: ["latin"],
-});
-
-const bodyFont = Manrope({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
-
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
-  const [mode, setMode] = useState<ThemeMode>("dark");
-  const [logoMissing, setLogoMissing] = useState(false);
+function LayoutInner({ children }: { children: React.ReactNode }) {
+  const { mode, language } = useApp();
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", mode);
+    document.documentElement.classList.toggle("dark", mode === "dark");
   }, [mode]);
-
-  useEffect(() => {
-    const handleImageError = () => setLogoMissing(true);
-    const img = new window.Image();
-    img.onload = () => setLogoMissing(false);
-    img.onerror = handleImageError;
-    img.src = "/logo.png";
-  }, []);
 
   return (
     <div className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>
       <div className="queen-shell">
-        <Navigation
-          language={language}
-          setLanguage={setLanguage}
-          mode={mode}
-          setMode={setMode}
-        />
+        <Navigation />
         <main className="content">{children}</main>
         <Footer />
         <Chatbot language={language} />
       </div>
     </div>
+  );
+}
+
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AppProvider>
+      <LayoutInner>{children}</LayoutInner>
+    </AppProvider>
   );
 }

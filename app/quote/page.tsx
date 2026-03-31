@@ -1,309 +1,424 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Code2, Video, Megaphone, Lightbulb, GraduationCap, 
-  Palette, ChevronRight, ChevronLeft, Send, Sparkles, 
-  ShieldCheck, Clock, CheckCircle2, Upload, Bot, Zap, Layers
+import {
+  Code2, Video, Megaphone, Lightbulb, GraduationCap,
+  Palette, ChevronRight, ChevronLeft, Send, Sparkles,
+  ShieldCheck, Clock, CheckCircle2, Upload, Bot, Zap, Layers,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useApp } from "@/lib/i18n-context";
 
 type ServiceId = 1 | 2 | 3 | 4 | 5 | 6;
-const services = [
-  { id: 1, title: "Software & Web Development", icon: Code2, desc: "Apps, Databases & Custom Solutions" },
-  { id: 2, title: "Digital Content & Media", icon: Video, desc: "Post-production & Visual Materials" },
-  { id: 3, title: "Marketing & Advertising", icon: Megaphone, desc: "Campaigns & Customer Attraction" },
-  { id: 4, title: "Technical Consulting", icon: Lightbulb, desc: "Professional Professional Services" },
-  { id: 5, title: "Education & Training", icon: GraduationCap, desc: "Digital Learning & Workshops" },
-  { id: 6, title: "Graphic Design", icon: Palette, desc: "Branding & Visual Communication" },
-];
+type Status = "idle" | "loading" | "success" | "error";
+
 const budgetRanges = ["$100 – $500", "$500 – $2,000", "$2,000 – $10,000", "$10,000+"];
 const timelines = ["Urgent (1–7 days)", "Short (2–4 weeks)", "Medium (1–3 months)", "Flexible"];
+function FormInput({
+  label, value, onChange, type = "text", placeholder, required = false,
+}: { label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string; required?: boolean }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div className="space-y-1.5">
+      <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${focused ? "text-[#ff0066]" : "text-gray-400 dark:text-gray-500"}`}>
+        {label}
+      </label>
+      <input
+        type={type}
+        value={value}
+        required={required}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full bg-black/3 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-5 h-13 focus:outline-none focus:border-[#ff0066] transition-all text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
+      />
+    </div>
+  );
+}
 
 export default function RequestQuote() {
+  const { t } = useApp();
   const [step, setStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState<ServiceId[]>([]);
+  const [status, setStatus] = useState<Status>("idle");
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", company: "",
-    description: "", budget: budgetRanges[1], timeline: timelines[1]
+    description: "", budget: budgetRanges[1], timeline: timelines[1],
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSummary, setShowSummary] = useState(false);
 
-  // --- Form Persistence ---
+  const services = [
+    { id: 1 as ServiceId, title: "Software & Web Development", icon: Code2, desc: "Apps, Databases & Custom Solutions" },
+    { id: 2 as ServiceId, title: "Digital Content & Media", icon: Video, desc: "Post-production & Visual Materials" },
+    { id: 3 as ServiceId, title: "Marketing & Advertising", icon: Megaphone, desc: "Campaigns & Customer Attraction" },
+    { id: 4 as ServiceId, title: "Technical Consulting", icon: Lightbulb, desc: "Strategic Advisory Services" },
+    { id: 5 as ServiceId, title: "Education & Training", icon: GraduationCap, desc: "Digital Learning & Workshops" },
+    { id: 6 as ServiceId, title: "Graphic Design", icon: Palette, desc: "Branding & Visual Communication" },
+  ];
+
   useEffect(() => {
     const saved = localStorage.getItem("hive-quote-draft");
-    if (saved) setFormData(JSON.parse(saved));
+    if (saved) { try { setFormData(JSON.parse(saved)); } catch {} }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("hive-quote-draft", JSON.stringify(formData));
   }, [formData]);
 
-  const toggleService = (id: ServiceId) => {
-    setSelectedServices(prev => 
-      prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]
-    );
-  };
+  const toggleService = (id: ServiceId) =>
+    setSelectedServices((prev) => prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]);
 
-  const handleNext = () => setStep(s => s + 1);
-  const handleBack = () => setStep(s => s - 1);
+  const update = (key: string, val: string) => setFormData((p) => ({ ...p, [key]: val }));
+
+  async function handleSubmit() {
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ services: selectedServices, ...formData }),
+      });
+      const data = await res.json();
+      setStatus(data.success ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  function getAIMessage() {
+    if (step === 1) return selectedServices.length === 0
+      ? "Select the services you need. Our team covers software, media, marketing, and design."
+      : `Great — ${selectedServices.length} service${selectedServices.length > 1 ? "s" : ""} selected. We'll craft a proposal covering all of them.`;
+    if (step === 2) return formData.description.length < 20
+      ? "Describe your project in detail — the more context you give, the better our proposal will be."
+      : "Good description. We'll use this to tailor our technical approach and timeline.";
+    return "We're almost done. Select a budget and timeline so we can scope the right team for you.";
+  }
+
+  if (status === "success") {
+    return (
+      <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] flex items-center justify-center px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center max-w-md"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 180, damping: 14, delay: 0.1 }}
+            className="w-24 h-24 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto mb-8"
+          >
+            <CheckCircle2 size={44} className="text-green-500" />
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <h2 className="text-4xl font-black italic uppercase tracking-tight mb-4">{t.quote.success_title}</h2>
+            <p className="text-gray-500 dark:text-gray-400 leading-relaxed mb-8">{t.quote.success_sub}</p>
+            <Button
+              onClick={() => { setStatus("idle"); setStep(1); setSelectedServices([]); }}
+              className="bg-[#ff0066] hover:bg-[#ff0066]/90 text-white rounded-2xl px-10 h-12 font-bold uppercase tracking-widest text-[11px]"
+            >
+              Submit Another
+            </Button>
+          </motion.div>
+        </motion.div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#010717] text-white pt-32 pb-20 px-6 relative overflow-hidden selection:bg-[#ff0066]/30">
-      {/* Background Decor */}
+    <main className="min-h-screen bg-[var(--bg)] text-[var(--text)] pt-32 pb-20 px-6 relative overflow-hidden">
+      {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#ff0066] rounded-full blur-[150px] opacity-10 animate-pulse" />
-        <div className="absolute bottom-[10%] right-[-10%] w-[600px] h-[600px] bg-[#200048] rounded-full blur-[150px] opacity-20" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 104l30-17.32V17.32L30 0 0 17.32v69.36L30 104zm0-5.773L5.001 83.66V20.34L30 5.773l24.999 14.567v63.32L30 98.227z' fill='%23ffffff' fill-rule='evenodd'/%3E%3C/svg%3E")`, backgroundSize: '100px' }} />
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[#ff0066]/4 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#7000ff]/4 rounded-full blur-[130px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000004_1px,transparent_1px),linear-gradient(to_bottom,#00000004_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* HEADER */}
-        <section className="text-center mb-16">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-[#ff0066] mb-6">
-              <Sparkles size={14} /> Tailored Solutions
-            </span>
-            <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-4">
-              Request a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#7000ff]">Quote</span>
-            </h1>
-            <p className="text-gray-400 max-w-xl mx-auto font-medium">
-              Transform your vision into a digital masterpiece. Tell us about your project.
-            </p>
-          </motion.div>
-        </section>
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-14">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/3 dark:bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-[#ff0066] mb-6">
+            <Sparkles size={12} /> {t.quote.badge}
+          </span>
+          <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-4">
+            {t.quote.title1}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#7000ff]">{t.quote.title2}</span>
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto">{t.quote.sub}</p>
+        </motion.section>
 
-        <div className="grid lg:grid-cols-12 gap-12">
-          {/* LEFT: FORM WIZARD (8 Columns) */}
+        <div className="grid lg:grid-cols-12 gap-10">
+          {/* FORM WIZARD */}
           <div className="lg:col-span-8">
-            <div className="relative bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-xl overflow-hidden group">
-              {/* Progress Indicator */}
-              <div className="flex items-center gap-4 mb-12">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="flex items-center gap-2 flex-1">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border transition-all ${
-                      step >= i ? "bg-[#ff0066] border-[#ff0066] shadow-[0_0_15px_rgba(255,0,102,0.5)]" : "border-white/20 text-gray-500"
-                    }`}>
-                      {i}
-                    </div>
-                    <div className={`h-[2px] flex-1 rounded-full ${step > i ? "bg-[#ff0066]" : "bg-white/10"}`} />
-                  </div>
-                ))}
-              </div>
+            <div className="relative p-px rounded-3xl" style={{ background: "linear-gradient(135deg, #ff006615, #7000ff15)" }}>
+              <div className="bg-[var(--bg)] rounded-3xl p-8 md:p-10 relative overflow-hidden">
 
-              {/* STEP CONTENT */}
-              <AnimatePresence mode="wait">
-                {step === 1 && (
-                  <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                    <h2 className="text-3xl font-black italic uppercase mb-8">Select Your Services</h2>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {services.map((s) => (
-                        <button
-                          key={s.id}
-                          onClick={() => toggleService(s.id as ServiceId)}
-                          className={`p-6 rounded-2xl border text-left transition-all relative group overflow-hidden ${
-                            selectedServices.includes(s.id as ServiceId) 
-                              ? "bg-[#ff0066]/10 border-[#ff0066] shadow-[0_0_20px_rgba(255,0,102,0.1)]" 
-                              : "bg-white/5 border-white/10 hover:border-white/30"
-                          }`}
-                        >
-                          <s.icon className={`mb-4 transition-colors ${selectedServices.includes(s.id as ServiceId) ? "text-[#ff0066]" : "text-gray-500"}`} size={28} />
-                          <h3 className="font-bold text-lg mb-1">{s.title}</h3>
-                          <p className="text-xs text-gray-500">{s.desc}</p>
-                          {selectedServices.includes(s.id as ServiceId) && (
-                            <motion.div layoutId="check" className="absolute top-4 right-4 text-[#ff0066]">
-                              <CheckCircle2 size={20} />
-                            </motion.div>
-                          )}
-                        </button>
-                      ))}
+                {/* Progress */}
+                <div className="flex items-center gap-3 mb-10">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-center gap-2 flex-1 last:flex-none">
+                      <motion.div
+                        animate={{ scale: step === i ? 1.1 : 1 }}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black border-2 transition-all duration-300 ${
+                          step > i ? "bg-[#ff0066] border-[#ff0066] text-white" :
+                          step === i ? "border-[#ff0066] text-[#ff0066]" :
+                          "border-black/15 dark:border-white/15 text-gray-400"
+                        }`}
+                      >
+                        {step > i ? <CheckCircle2 size={14} /> : i}
+                      </motion.div>
+                      {i < 3 && (
+                        <div className="flex-1 h-px rounded-full overflow-hidden bg-black/10 dark:bg-white/10">
+                          <motion.div
+                            animate={{ width: step > i ? "100%" : "0%" }}
+                            transition={{ duration: 0.4 }}
+                            className="h-full bg-[#ff0066]"
+                          />
+                        </div>
+                      )}
                     </div>
-                  </motion.div>
-                )}
+                  ))}
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 ml-2">
+                    {t.quote.step} {step} {t.quote.of} 3
+                  </span>
+                </div>
 
-                {step === 2 && (
-                  <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                    <h2 className="text-3xl font-black italic uppercase mb-8">The Specifics</h2>
-                    <div className="grid md:grid-cols-2 gap-8 mb-8">
-                      <FormInput label="Full Name" value={formData.name} onChange={(v: string) => setFormData({...formData, name: v})} placeholder="John Doe" />
-                      <FormInput label="Email Address" type="email" value={formData.email} onChange={(v: string) => setFormData({...formData, email: v})} placeholder="john@example.com" />
-                      <FormInput label="Phone (Optional)" value={formData.phone} onChange={(v: string) => setFormData({...formData, phone: v})} placeholder="+250..." />
-                      <FormInput label="Company (Optional)" value={formData.company} onChange={(v: string) => setFormData({...formData, company: v})} placeholder="HIVE Inc." />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Project Description</label>
-                      <textarea 
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[150px] focus:outline-none focus:border-[#ff0066] transition-colors"
-                        placeholder="Tell us about the scope, features, and goals..."
-                        value={formData.description}
-                        onChange={e => setFormData({...formData, description: e.target.value})}
-                      />
-                    </div>
-                  </motion.div>
-                )}
+                {/* Step content */}
+                <AnimatePresence mode="wait">
+                  {step === 1 && (
+                    <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2">{t.quote.step1_title}</h2>
+                      <p className="text-gray-400 text-sm mb-8">Select all that apply</p>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {services.map((s) => {
+                          const selected = selectedServices.includes(s.id);
+                          return (
+                            <motion.button
+                              key={s.id}
+                              onClick={() => toggleService(s.id)}
+                              whileTap={{ scale: 0.98 }}
+                              className={`p-5 rounded-2xl border text-left transition-all relative group overflow-hidden ${
+                                selected
+                                  ? "bg-[#ff0066]/8 border-[#ff0066]/50 dark:bg-[#ff0066]/10"
+                                  : "bg-black/2 dark:bg-white/3 border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20"
+                              }`}
+                            >
+                              <s.icon className={`mb-3 transition-colors ${selected ? "text-[#ff0066]" : "text-gray-400"}`} size={24} />
+                              <h3 className="font-bold text-sm mb-1 text-gray-900 dark:text-white">{s.title}</h3>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">{s.desc}</p>
+                              {selected && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="absolute top-3 right-3 text-[#ff0066]"
+                                >
+                                  <CheckCircle2 size={18} />
+                                </motion.div>
+                              )}
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
 
-                {step === 3 && (
-                  <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                    <h2 className="text-3xl font-black italic uppercase mb-8">Timeline & Investment</h2>
-                    <div className="grid md:grid-cols-2 gap-12">
-                      <div className="space-y-6">
-                         <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Budget Range</label>
-                         <div className="grid gap-3">
-                            {budgetRanges.map(b => (
-                              <button 
-                                key={b} 
-                                onClick={() => setFormData({...formData, budget: b})}
-                                className={`px-6 py-4 rounded-xl border text-sm font-bold transition-all ${
-                                  formData.budget === b ? "bg-[#ff0066] border-[#ff0066] text-white" : "bg-white/5 border-white/10 text-gray-400"
+                  {step === 2 && (
+                    <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2">{t.quote.step2_title}</h2>
+                      <p className="text-gray-400 text-sm mb-8">So we know who we're talking to</p>
+                      <div className="grid md:grid-cols-2 gap-6 mb-6">
+                        <FormInput label={t.quote.name} value={formData.name} onChange={(v) => update("name", v)} placeholder={t.quote.name_placeholder} required />
+                        <FormInput label={t.quote.email} type="email" value={formData.email} onChange={(v) => update("email", v)} placeholder={t.quote.email_placeholder} required />
+                        <FormInput label={t.quote.phone} value={formData.phone} onChange={(v) => update("phone", v)} placeholder={t.quote.phone_placeholder} />
+                        <FormInput label={t.quote.company} value={formData.company} onChange={(v) => update("company", v)} placeholder={t.quote.company_placeholder} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">{t.quote.description}</label>
+                        <textarea
+                          rows={4}
+                          value={formData.description}
+                          onChange={(e) => update("description", e.target.value)}
+                          placeholder={t.quote.description_placeholder}
+                          className="w-full bg-black/3 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:border-[#ff0066] transition-all text-sm resize-none text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {step === 3 && (
+                    <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2">{t.quote.step3_title}</h2>
+                      <p className="text-gray-400 text-sm mb-8">Help us understand the scope</p>
+                      <div className="grid md:grid-cols-2 gap-10">
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 block">{t.quote.budget_label}</label>
+                          <div className="space-y-2.5">
+                            {budgetRanges.map((b) => (
+                              <button
+                                key={b}
+                                onClick={() => update("budget", b)}
+                                className={`w-full px-5 py-3.5 rounded-xl border text-sm font-bold text-left transition-all ${
+                                  formData.budget === b
+                                    ? "bg-[#ff0066] border-[#ff0066] text-white shadow-lg shadow-pink-500/20"
+                                    : "bg-black/2 dark:bg-white/3 border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-[#ff0066]/30"
                                 }`}
                               >
                                 {b}
                               </button>
                             ))}
-                         </div>
-                      </div>
-                      <div className="space-y-6">
-                         <label className="text-[10px] font-black uppercase tracking-widest text-gray-500">Timeline Expectation</label>
-                         <div className="grid gap-3">
-                            {timelines.map(t => (
-                              <button 
-                                key={t} 
-                                onClick={() => setFormData({...formData, timeline: t})}
-                                className={`px-6 py-4 rounded-xl border text-sm font-bold transition-all ${
-                                  formData.timeline === t ? "bg-[#7000ff] border-[#7000ff] text-white" : "bg-white/5 border-white/10 text-gray-400"
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4 block">{t.quote.timeline_label}</label>
+                          <div className="space-y-2.5">
+                            {timelines.map((tl) => (
+                              <button
+                                key={tl}
+                                onClick={() => update("timeline", tl)}
+                                className={`w-full px-5 py-3.5 rounded-xl border text-sm font-bold text-left transition-all ${
+                                  formData.timeline === tl
+                                    ? "bg-[#7000ff] border-[#7000ff] text-white shadow-lg shadow-purple-500/20"
+                                    : "bg-black/2 dark:bg-white/3 border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-[#7000ff]/30"
                                 }`}
                               >
-                                {t}
+                                {tl}
                               </button>
                             ))}
-                         </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="mt-12 p-8 border-2 border-dashed border-white/10 rounded-3xl text-center group hover:border-[#ff0066]/50 transition-colors">
-                        <Upload className="mx-auto text-gray-500 mb-4 group-hover:text-[#ff0066] transition-colors" size={32} />
-                        <p className="text-sm font-bold text-gray-400">Drag & drop project brief or <span className="text-[#ff0066]">browse files</span></p>
-                        <p className="text-[10px] text-gray-600 mt-2 uppercase tracking-widest">PDF, DOCX, PNG (Max 10MB)</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
-              {/* NAV BUTTONS */}
-              <div className="mt-12 flex justify-between gap-4">
-                {step > 1 && (
-                  <Button variant="outline" onClick={handleBack} className="rounded-2xl px-8 h-14 border-white/10 hover:bg-white/5 font-black uppercase tracking-widest text-[10px]">
-                    <ChevronLeft className="mr-2" size={16} /> Back
-                  </Button>
-                )}
-                {step < 3 ? (
-                  <Button onClick={handleNext} disabled={step === 1 && selectedServices.length === 0} className="ml-auto rounded-2xl px-10 h-14 bg-white text-black hover:bg-[#ff0066] hover:text-white font-black uppercase tracking-widest text-[10px]">
-                    Continue <ChevronRight className="ml-2" size={16} />
-                  </Button>
-                ) : (
-                  <Button onClick={() => setIsSubmitting(true)} className="ml-auto rounded-2xl px-10 h-14 bg-gradient-to-r from-[#ff0066] to-[#7000ff] text-white font-black uppercase tracking-widest text-[10px] shadow-[0_10px_30px_rgba(255,0,102,0.3)]">
-                    {isSubmitting ? "Transmitting..." : "Submit Request"} <Send className="ml-2" size={16} />
-                  </Button>
-                )}
+                      {/* File upload */}
+                      <div className="mt-8 p-7 border-2 border-dashed border-black/10 dark:border-white/10 rounded-2xl text-center group hover:border-[#ff0066]/40 transition-colors cursor-pointer">
+                        <Upload className="mx-auto text-gray-400 mb-3 group-hover:text-[#ff0066] transition-colors" size={28} />
+                        <p className="text-sm text-gray-500">
+                          {t.quote.file_label}{" "}
+                          <span className="text-[#ff0066] font-bold cursor-pointer">{t.quote.file_browse}</span>
+                        </p>
+                        <p className="text-[10px] text-gray-400 dark:text-gray-600 mt-1.5 uppercase tracking-widest">{t.quote.file_types}</p>
+                      </div>
+
+                      {status === "error" && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center"
+                        >
+                          Something went wrong. Please try again.
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Navigation */}
+                <div className="mt-10 flex justify-between gap-4">
+                  {step > 1 && (
+                    <Button
+                      variant="outline"
+                      onClick={() => setStep((s) => s - 1)}
+                      className="rounded-xl px-6 h-12 border-black/15 dark:border-white/15 font-bold uppercase tracking-widest text-[10px] text-gray-600 dark:text-gray-400"
+                    >
+                      <ChevronLeft size={15} className="mr-1" /> {t.quote.back}
+                    </Button>
+                  )}
+                  <div className="ml-auto">
+                    {step < 3 ? (
+                      <Button
+                        onClick={() => setStep((s) => s + 1)}
+                        disabled={step === 1 && selectedServices.length === 0}
+                        className="rounded-xl px-8 h-12 bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-[#ff0066] dark:hover:bg-[#ff0066] dark:hover:text-white font-bold uppercase tracking-widest text-[10px] transition-all disabled:opacity-40"
+                      >
+                        {t.quote.next} <ChevronRight size={15} className="ml-1" />
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleSubmit}
+                        disabled={status === "loading" || !formData.name || !formData.email}
+                        className="rounded-xl px-10 h-12 bg-gradient-to-r from-[#ff0066] to-[#7000ff] text-white font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-pink-500/20 disabled:opacity-50"
+                      >
+                        {status === "loading" ? (
+                          <span className="flex items-center gap-2">
+                            <motion.span
+                              animate={{ rotate: 360 }}
+                              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                              className="inline-block w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full"
+                            />
+                            {t.quote.submitting}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-2">
+                            {t.quote.submit} <Send size={14} />
+                          </span>
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: AI ASSISTANT & TRUST (4 Columns) */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* AI Assistant Card */}
-            <div className="bg-gradient-to-br from-[#ff0066]/20 to-[#200048]/20 border border-[#ff0066]/20 rounded-[2.5rem] p-8 backdrop-blur-xl relative overflow-hidden">
-               <div className="absolute top-[-20%] right-[-20%] w-40 h-40 bg-[#ff0066] blur-[60px] opacity-20" />
-               <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-[#ff0066] flex items-center justify-center animate-pulse">
-                    <Bot size={20} />
+          {/* SIDEBAR */}
+          <div className="lg:col-span-4 space-y-5">
+            {/* AI Assistant */}
+            <div className="relative p-px rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #ff006625, #7000ff25)" }}>
+              <div className="bg-[var(--bg)] rounded-3xl p-7">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#ff0066] to-[#7000ff] flex items-center justify-center">
+                    <Bot size={18} className="text-white" />
                   </div>
-                  <h4 className="font-black italic uppercase text-xs tracking-[0.2em]">Hive AI Assistant</h4>
-               </div>
-               
-               <div className="space-y-4">
-                  <div className="bg-[#010717]/50 rounded-2xl p-4 text-xs leading-relaxed text-gray-300 border border-white/5">
-                    {getAIMessage(step, selectedServices, formData.description)}
-                  </div>
-                  <div className="grid gap-2">
-                    <PrincipleItem icon={Zap} text="Structure First" />
-                    <PrincipleItem icon={Palette} text="Full Design" />
-                    <PrincipleItem icon={Layers} text="Full Functionality" />
-                  </div>
-               </div>
+                  <h4 className="font-black italic uppercase text-xs tracking-widest">{t.quote.ai_title}</h4>
+                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={step + selectedServices.length + formData.description.length}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="bg-black/5 dark:bg-white/5 rounded-2xl p-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300 border border-black/8 dark:border-white/8 mb-5"
+                  >
+                    {getAIMessage()}
+                  </motion.div>
+                </AnimatePresence>
+                <div className="space-y-2.5">
+                  {[{ icon: Zap, text: "Structure First" }, { icon: Palette, text: "Full Design" }, { icon: Layers, text: "Full Functionality" }].map(({ icon: Icon, text }) => (
+                    <div key={text} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                      <Icon size={12} className="text-[#ff0066]" /> {text}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Trust Reassurance */}
-            <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6">
-               <TrustItem icon={Clock} title="24-Hour Response" desc="We process requests within one business day." />
-               <TrustItem icon={ShieldCheck} title="Secure & Private" desc="Your ideas are protected by our strict NDA." />
+            {/* Trust */}
+            <div className="bg-white dark:bg-white/[0.03] border border-black/8 dark:border-white/8 rounded-3xl p-7 space-y-5">
+              {[
+                { icon: Clock, title: t.quote.trust_response, desc: t.quote.trust_response_desc },
+                { icon: ShieldCheck, title: t.quote.trust_secure, desc: t.quote.trust_secure_desc },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-center flex-shrink-0">
+                    <Icon size={16} className="text-gray-400" />
+                  </div>
+                  <div>
+                    <h6 className="text-xs font-black uppercase tracking-widest mb-1 text-gray-800 dark:text-gray-200">{title}</h6>
+                    <p className="text-[11px] text-gray-500 leading-relaxed">{desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* Direct Contact */}
-            <div className="px-8 py-6 rounded-3xl bg-[#ff0066] text-center group cursor-pointer">
-               <p className="text-[10px] font-black uppercase tracking-widest text-white/70 mb-1">Direct Contact</p>
-               <h5 className="font-black text-lg group-hover:scale-105 transition-transform">hello@360hive.com</h5>
-            </div>
+            {/* Direct contact */}
+            <a href="mailto:hello@360hive.rw" className="block px-7 py-5 rounded-2xl bg-gradient-to-r from-[#ff0066] to-[#7000ff] text-center group hover:opacity-90 transition-opacity">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-white/70 mb-1">{t.quote.direct_contact}</p>
+              <h5 className="font-black text-white group-hover:scale-105 transition-transform text-sm">hello@360hive.rw</h5>
+            </a>
           </div>
         </div>
       </div>
     </main>
   );
-}
-
-// --- Sub-components ---
-
-function FormInput({ label, value, onChange, type = "text", placeholder }: any) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div className="space-y-2">
-      <label className={`text-[10px] font-black uppercase tracking-widest transition-colors ${focused ? "text-[#ff0066]" : "text-gray-500"}`}>{label}</label>
-      <input 
-        type={type} 
-        value={value}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full bg-white/5 border border-white/10 rounded-xl px-6 h-14 focus:outline-none focus:border-[#ff0066] transition-all text-sm"
-      />
-    </div>
-  );
-}
-
-function PrincipleItem({ icon: Icon, text }: any) {
-  return (
-    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-      <Icon size={14} className="text-[#ff0066]" /> {text}
-    </div>
-  );
-}
-
-function TrustItem({ icon: Icon, title, desc }: any) {
-  return (
-    <div className="flex items-start gap-4">
-      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-        <Icon size={18} className="text-gray-400" />
-      </div>
-      <div>
-        <h6 className="text-xs font-black uppercase tracking-widest mb-1">{title}</h6>
-        <p className="text-[10px] text-gray-500 leading-relaxed">{desc}</p>
-      </div>
-    </div>
-  );
-}
-
-function getAIMessage(step: number, selected: number[], desc: string) {
-  if (step === 1) {
-    return selected.length === 0 
-      ? "Choose at least one service to start. Our Software team is currently 20% faster than industry average." 
-      : `Great choice! Combining ${selected.length} services helps us ensure 'Full Functionality' across your project.`;
-  }
-  if (step === 2) {
-    if (desc.length < 20) return "Try to describe your target audience. It helps our Graphic Design team align with your brand.";
-    return "Based on your description, I recommend our 'Structure First' approach to ensure long-term scalability.";
-  }
-  return "Reviewing your budget and timeline... We can provide a dedicated technical lead for this project scope.";
 }
