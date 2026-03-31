@@ -43,18 +43,14 @@ export function Navigation({ language, setLanguage, mode, setMode }: NavigationP
 
   return (
     <>
-      <header 
-        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ${
-          scrolled ? "pt-2" : "pt-6"
-        }`}
-      >
+      <header className="fixed top-0 left-0 right-0 z-9999 pt-2 transition-all duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.nav
             layout
-            className={`relative flex items-center justify-between transition-all duration-500 ease-in-out px-6 ${
-              scrolled 
-                ? "h-14 rounded-2xl bg-white/80 dark:bg-[#010717]/80 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]" 
-                : "h-20 rounded-none bg-transparent border-transparent"
+            className={`relative flex items-center justify-between transition-all duration-500 ease-in-out px-6 rounded-2xl backdrop-blur-xl border ${
+              scrolled
+                ? "h-14 bg-white/80 dark:bg-[#010717]/80 border-white/20 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+                : "h-20 bg-white/60 dark:bg-[#010717]/60 border-white/10 dark:border-white/5 shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
             }`}
           >
             {/* LOGO */}
