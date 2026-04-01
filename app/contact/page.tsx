@@ -4,7 +4,6 @@ import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Linkedin, Instagram, Twitter, CheckCircle2, AlertCircle, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useApp } from "@/lib/i18n-context";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -41,43 +40,46 @@ export default function ContactPage() {
   ];
 
   const inputClass = (field: string) =>
-    `w-full bg-transparent border-b py-4 focus:outline-none transition-all duration-300 text-base placeholder:text-gray-400 dark:placeholder:text-gray-600 ${
+    `w-full bg-transparent border-b py-4 focus:outline-none transition-all duration-300 text-base placeholder:text-white/30 ${
       focused === field
-        ? "border-[#ff0066] text-gray-900 dark:text-white"
-        : "border-black/15 dark:border-white/15 text-gray-700 dark:text-gray-300"
+        ? "border-[#ff0066] text-white"
+        : "border-white/15 text-white/80"
     }`;
 
   const labelClass = (field: string) =>
     `block text-[10px] font-bold uppercase tracking-widest mb-2 transition-colors ${
-      focused === field ? "text-[#ff0066]" : "text-gray-400 dark:text-gray-500"
+      focused === field ? "text-[#ff0066]" : "text-white/40"
     }`;
 
   return (
-    <main className="relative min-h-screen bg-[var(--bg)] text-[var(--text)] pt-32 pb-20 overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000006_1px,transparent_1px),linear-gradient(to_bottom,#00000006_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:56px_56px] pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#7000ff]/4 dark:bg-[#7000ff]/6 rounded-full blur-[130px] pointer-events-none" />
+    <main className="relative min-h-screen bg-[#0a0a0f] text-white pt-32 pb-20 overflow-hidden">
+      {/* Layered background glows */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,0,150,0.13),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(120,0,255,0.15),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:56px_56px]" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
 
         {/* HEADER */}
-        <section className="mb-20">
+        <section className="mb-16 sm:mb-20">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/3 dark:bg-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff0066] animate-pulse" />
               {t.contact.badge}
             </span>
-            <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.85] mb-4">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter leading-[0.85] mb-4 text-white">
               {t.contact.title1}{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#7000ff]">
                 {t.contact.title2}
               </span>
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl leading-relaxed">{t.contact.sub}</p>
+            <p className="text-white/60 text-base sm:text-lg max-w-xl leading-relaxed">{t.contact.sub}</p>
           </motion.div>
         </section>
 
-        <div className="grid lg:grid-cols-12 gap-16">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
 
           {/* LEFT — Contact Info */}
           <motion.div
@@ -86,21 +88,21 @@ export default function ContactPage() {
             transition={{ delay: 0.15 }}
             className="lg:col-span-4 space-y-8"
           >
-            <h3 className="text-lg font-black italic uppercase tracking-tight text-gray-700 dark:text-gray-300">{t.contact.info_title}</h3>
+            <h3 className="text-lg font-black italic uppercase tracking-tight text-white/80">{t.contact.info_title}</h3>
 
             <div className="space-y-4">
               {contactItems.map((item, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ x: 6 }}
-                  className="group flex items-center gap-5 p-5 rounded-2xl bg-white dark:bg-white/[0.03] border border-black/8 dark:border-white/8 hover:border-[#ff0066]/30 transition-all shadow-sm dark:shadow-none"
+                  whileHover={{ x: 6, boxShadow: "0 0 40px rgba(200,0,255,0.2)" }}
+                  className="group flex items-center gap-5 p-5 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-[#ff0066]/30 transition-all duration-300 shadow-[0_0_20px_rgba(200,0,255,0.08)]"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff0066]/10 to-[#7000ff]/10 flex items-center justify-center group-hover:from-[#ff0066] group-hover:to-[#7000ff] transition-all duration-300 flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff0066]/10 to-[#7000ff]/10 flex items-center justify-center group-hover:from-[#ff0066] group-hover:to-[#7000ff] transition-all duration-300 flex-shrink-0 border border-white/10">
                     <item.icon size={18} className="text-[#ff0066] group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">{item.label}</p>
-                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{item.value}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-0.5">{item.label}</p>
+                    <p className="text-sm font-semibold text-white/90">{item.value}</p>
                   </div>
                 </motion.div>
               ))}
@@ -108,16 +110,16 @@ export default function ContactPage() {
 
             {/* Socials */}
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Follow Our Work</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-4">Follow Our Work</p>
               <div className="flex gap-3">
                 {[Linkedin, Instagram, Twitter].map((Icon, i) => (
                   <motion.a
                     key={i}
                     href="#"
                     whileHover={{ y: -3, scale: 1.1 }}
-                    className="w-11 h-11 rounded-xl bg-white dark:bg-white/5 border border-black/8 dark:border-white/8 flex items-center justify-center hover:border-[#ff0066]/40 hover:bg-[#ff0066]/5 transition-all"
+                    className="w-11 h-11 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 flex items-center justify-center hover:border-[#ff0066]/40 hover:bg-[#ff0066]/10 transition-all"
                   >
-                    <Icon size={16} className="text-gray-400 hover:text-[#ff0066] transition-colors" />
+                    <Icon size={16} className="text-white/40 hover:text-[#ff0066] transition-colors" />
                   </motion.a>
                 ))}
               </div>
@@ -131,8 +133,9 @@ export default function ContactPage() {
             transition={{ delay: 0.25 }}
             className="lg:col-span-8"
           >
-            <div className="relative p-px rounded-3xl" style={{ background: "linear-gradient(135deg, #ff006620, #7000ff20)" }}>
-              <div className="bg-[var(--bg)] rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            <div className="relative p-px rounded-3xl" style={{ background: "linear-gradient(135deg, rgba(255,0,102,0.25), rgba(112,0,255,0.25))" }}>
+              <div className="bg-[#0a0a0f] rounded-3xl p-8 md:p-12 relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/[0.02] rounded-3xl pointer-events-none" />
 
                 <AnimatePresence mode="wait">
                   {status === "success" ? (
@@ -151,15 +154,14 @@ export default function ContactPage() {
                       >
                         <CheckCircle2 size={36} className="text-green-500" />
                       </motion.div>
-                      <h3 className="text-3xl font-black italic uppercase mb-3">{t.contact.success_title}</h3>
-                      <p className="text-gray-500 mb-8">{t.contact.success_sub}</p>
-                      <Button
+                      <h3 className="text-3xl font-black italic uppercase mb-3 text-white">{t.contact.success_title}</h3>
+                      <p className="text-white/50 mb-8">{t.contact.success_sub}</p>
+                      <button
                         onClick={() => { setStatus("idle"); setFormData({ name: "", email: "", subject: "", message: "" }); }}
-                        variant="outline"
-                        className="border-black/15 dark:border-white/15 rounded-xl"
+                        className="px-8 py-3 rounded-xl border border-white/15 text-white/70 hover:border-white/30 hover:text-white transition-all font-bold uppercase tracking-widest text-[11px]"
                       >
                         Send another
-                      </Button>
+                      </button>
                     </motion.div>
                   ) : (
                     <motion.form
@@ -224,42 +226,43 @@ export default function ContactPage() {
                           className={`${inputClass("message")} resize-none`}
                           required
                         />
-                        <div className="text-right text-[10px] text-gray-400 mt-1">{formData.message.length} / 1000</div>
+                        <div className="text-right text-[10px] text-white/30 mt-1">{formData.message.length} / 1000</div>
                       </div>
 
                       {status === "error" && (
                         <motion.div
                           initial={{ opacity: 0, y: -8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="flex items-center gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm"
+                          className="flex items-center gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm"
                         >
                           <AlertCircle size={16} />
                           {t.contact.error}
                         </motion.div>
                       )}
 
-                      <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
-                        <Button
-                          type="submit"
-                          disabled={status === "loading"}
-                          className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#ff0066] to-[#7000ff] text-white font-black uppercase tracking-widest text-[11px] shadow-lg shadow-pink-500/20 hover:opacity-90 disabled:opacity-70"
-                        >
-                          {status === "loading" ? (
-                            <span className="flex items-center gap-2">
-                              <motion.span
-                                animate={{ rotate: 360 }}
-                                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                                className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                              />
-                              {t.contact.sending}
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2">
-                              {t.contact.send} <Send size={16} />
-                            </span>
-                          )}
-                        </Button>
-                      </motion.div>
+                      <motion.button
+                        type="submit"
+                        disabled={status === "loading"}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="w-full h-14 rounded-2xl text-white font-black uppercase tracking-widest text-[11px] disabled:opacity-70 transition-all flex items-center justify-center gap-2"
+                        style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.4)" }}
+                      >
+                        {status === "loading" ? (
+                          <span className="flex items-center gap-2">
+                            <motion.span
+                              animate={{ rotate: 360 }}
+                              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                              className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                            />
+                            {t.contact.sending}
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-2">
+                            {t.contact.send} <Send size={16} />
+                          </span>
+                        )}
+                      </motion.button>
                     </motion.form>
                   )}
                 </AnimatePresence>
@@ -273,13 +276,14 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-24 p-10 rounded-3xl border border-black/8 dark:border-white/8 bg-gradient-to-br from-[#ff0066]/5 to-[#7000ff]/5 text-center relative overflow-hidden"
+          className="mt-24 p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg shadow-[0_0_30px_rgba(200,0,255,0.15)] hover:shadow-[0_0_50px_rgba(200,0,255,0.25)] text-center relative overflow-hidden transition-all duration-300"
         >
-          <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter mb-4">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,0,102,0.08),transparent_60%)] pointer-events-none" />
+          <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter mb-4 text-white">
             {t.contact.cta_title.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="text-[#ff0066]">{t.contact.cta_title.split(" ").slice(-1)}</span>
           </h2>
-          <p className="text-gray-500 mb-6 max-w-md mx-auto">{t.contact.cta_sub}</p>
+          <p className="text-white/50 mb-6 max-w-md mx-auto">{t.contact.cta_sub}</p>
           <Link href="/quote" className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest text-[#ff0066] hover:gap-4 transition-all group">
             {t.contact.cta_link}
             <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />

@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Monitor, PlayCircle, BarChart3, Palette, Zap, ArrowRight, ShieldCheck } from "lucide-react";
 import { useApp } from "@/lib/i18n-context";
 
@@ -70,12 +69,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       <motion.div
         style={{ rotateX, rotateY }}
-        className="relative h-full w-full rounded-3xl overflow-hidden border border-black/8 dark:border-white/8 bg-white dark:bg-white/[0.02] transition-all duration-300 group-hover:border-[#ff0066]/25 group-hover:shadow-xl dark:group-hover:shadow-[0_0_40px_rgba(255,0,102,0.08)]"
+        className="relative h-full w-full rounded-3xl overflow-hidden bg-white/5 backdrop-blur-lg border border-white/10 transition-all duration-300 group-hover:border-[#ff0066]/30 group-hover:shadow-[0_0_40px_rgba(200,0,255,0.25)]"
       >
         {/* Image */}
         <div className="absolute inset-0">
           <Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[0.3] group-hover:grayscale-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         </div>
 
         {/* Content */}
@@ -92,17 +91,18 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </h3>
 
           <div className="overflow-hidden max-h-0 group-hover:max-h-48 transition-all duration-500">
-            <p className="text-gray-300 text-sm leading-relaxed mb-4">{project.description}</p>
+            <p className="text-white/70 text-sm leading-relaxed mb-4">{project.description}</p>
             <div className="flex flex-wrap gap-2 mb-5">
               {project.tags.map((tag) => (
-                <span key={tag} className="text-[9px] font-bold border border-white/20 px-3 py-1 rounded-lg uppercase tracking-wide bg-white/10 text-gray-200">
+                <span key={tag} className="text-[9px] font-bold border border-white/20 px-3 py-1 rounded-lg uppercase tracking-wide bg-white/10 text-white/80">
                   {tag}
                 </span>
               ))}
             </div>
-            <Button className="w-full bg-white text-black hover:bg-[#ff0066] hover:text-white rounded-xl font-bold uppercase tracking-widest text-[10px] h-11 transition-all group/btn">
-              View Project <ArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform" size={13} />
-            </Button>
+            <button className="w-full h-11 rounded-xl font-bold uppercase tracking-widest text-[10px] text-white transition-all flex items-center justify-center gap-2"
+              style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.35)" }}>
+              View Project <ArrowRight size={13} />
+            </button>
           </div>
         </div>
       </motion.div>
@@ -131,7 +131,6 @@ export default function WorkPage() {
   const headerY = useTransform(scrollYProgress, [0, 0.15], [0, -60]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
-  // Mouse spotlight
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   useEffect(() => {
@@ -141,20 +140,12 @@ export default function WorkPage() {
   }, [mouseX, mouseY]);
 
   return (
-    <main className="relative bg-[var(--bg)] text-[var(--text)] pt-36 pb-32 px-6 overflow-hidden">
-      {/* Subtle spotlight */}
-      <motion.div
-        className="fixed inset-0 z-0 pointer-events-none opacity-25"
-        style={{
-          background: useMotionValue(
-            `radial-gradient(500px circle at 50% 50%, rgba(255,0,102,0.08), transparent 80%)`
-          ),
-        }}
-      />
-
-      {/* Grid */}
-      <div className="fixed inset-0 z-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:56px_56px]" />
+    <main className="relative bg-[#0a0a0f] text-white pt-36 pb-32 px-4 sm:px-6 md:px-8 overflow-hidden">
+      {/* Layered background glows */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,0,150,0.13),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(120,0,255,0.13),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:56px_56px]" />
       </div>
 
       {/* HEADER */}
@@ -163,31 +154,31 @@ export default function WorkPage() {
         className="max-w-7xl mx-auto mb-20 text-center relative z-10"
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/3 dark:bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-gray-500 mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ff0066] animate-pulse" />
             {t.products.badge}
           </span>
-          <h1 className="text-6xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.85] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-[0.85] mb-6 text-white">
             {t.products.title1}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] via-[#7000ff] to-[#ff0066]">
               {t.products.title2}
             </span>
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">{t.products.sub}</p>
+          <p className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto">{t.products.sub}</p>
         </motion.div>
       </motion.section>
 
       {/* FILTER TABS */}
       <section className="max-w-7xl mx-auto mb-16 relative z-20 flex justify-center">
-        <div className="p-1.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/8 dark:border-white/8 backdrop-blur-xl flex flex-wrap justify-center gap-1">
+        <div className="p-1.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex flex-wrap justify-center gap-1">
           {categories.map(({ key, label }) => (
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`px-5 sm:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                 activeTab === key
                   ? "bg-[#ff0066] text-white shadow-lg shadow-pink-500/25"
-                  : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                  : "text-white/50 hover:text-white hover:bg-white/5"
               }`}
             >
               {label}
@@ -198,7 +189,7 @@ export default function WorkPage() {
 
       {/* PROJECT GRID */}
       <section className="max-w-7xl mx-auto relative z-10">
-        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, idx) => (
               <ProjectCard key={project.id} project={project} index={idx} />
@@ -213,19 +204,22 @@ export default function WorkPage() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto p-14 rounded-3xl border border-black/8 dark:border-white/8 text-center relative overflow-hidden"
-          style={{ background: "linear-gradient(135deg, rgba(255,0,102,0.04), transparent, rgba(112,0,255,0.04))" }}
+          className="max-w-4xl mx-auto p-10 sm:p-14 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg text-center relative overflow-hidden shadow-[0_0_30px_rgba(200,0,255,0.15)] hover:shadow-[0_0_50px_rgba(200,0,255,0.25)] transition-all duration-300"
         >
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-          <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 relative z-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,0,102,0.08),transparent_60%)] pointer-events-none" />
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 relative z-10 text-white">
             {t.products.cta_title1} <br />
             <span className="text-[#ff0066]">{t.products.cta_title2}</span>
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 relative z-10">
-            <Button asChild size="lg" className="bg-[#ff0066] hover:bg-[#ff0066]/90 text-white rounded-2xl h-13 px-10 font-black uppercase tracking-widest text-[11px] shadow-lg shadow-pink-500/20">
-              <Link href="/quote">{t.products.cta_btn}</Link>
-            </Button>
-            <div className="flex items-center gap-2 px-5 py-3 bg-black/5 dark:bg-white/5 rounded-full border border-black/8 dark:border-white/8 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            <Link
+              href="/quote"
+              className="w-full sm:w-auto px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] text-white flex items-center justify-center gap-2 transition-all"
+              style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.5)" }}
+            >
+              {t.products.cta_btn}
+            </Link>
+            <div className="flex items-center gap-2 px-5 py-3 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50">
               <ShieldCheck size={14} className="text-[#ff0066]" />
               {t.products.cta_secure}
             </div>
