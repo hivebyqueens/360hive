@@ -176,7 +176,8 @@ a {
 .content {
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: min(1200px, 94vw);
+  margin: 0 auto;
 }
 
 [data-reveal] {
@@ -1106,7 +1107,8 @@ a {
   }
 
   .content {
-    width: 100%;
+    width: min(1200px, 94vw);
+    margin: 0 auto;
   }
 
   .hero,
