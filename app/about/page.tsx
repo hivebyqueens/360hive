@@ -154,12 +154,12 @@ export default function AboutPage() {
                 </span>
               </motion.div>
 
-              {/* headline */}
+         
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.09 }}
-                className="text-5xl md:text-7xl lg:text-[84px] font-black italic uppercase tracking-tighter leading-[0.88]"
+                className="text-5xl md:text-6xl lg:text-[72px] font-black italic tracking-tighter leading-[0.88]"
               >
                 {t.about.hero1} <br />
                 <span
@@ -174,7 +174,7 @@ export default function AboutPage() {
                 </span>
               </motion.h1>
 
-              {/* bordered quote */}
+             
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
