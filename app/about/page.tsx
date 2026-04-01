@@ -7,7 +7,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Cpu, Palette, TrendingUp, Target, Eye, Zap, CheckCircle2, Linkedin, Github, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useApp } from "@/lib/i18n-context";
 
-/* ─── Glow CTA Button ───────────────────────────── */
+
 function GlowButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <motion.div
@@ -44,7 +44,7 @@ const teamMembers = [
     role: "CEO & Fullstack Developer",
     image: "/image/dositha.jpeg",
     description: "The systems architect. Bridging the gap between logic and creativity.",
-    skills: ["Architecture", "Next.js", "Fullstack"],
+    skills: [" System Architecture", "Next.js", "Fullstack"],
     icon: Cpu,
     glow: "rgba(212,0,110,0.28)",
     border: "rgba(212,0,110,0.30)",
@@ -54,7 +54,7 @@ const teamMembers = [
     role: "Managing Director & Graphic Designer",
     image: "/image/nicole.jpeg",
     description: "Orchestrating the Hive. Defining the visual and operational soul of the brand.",
-    skills: ["Operations", "Identity", "Design"],
+    skills: ["Operations", "Digital Marketing", "Design"],
     icon: Palette,
     glow: "rgba(140,0,200,0.28)",
     border: "rgba(140,0,200,0.30)",
