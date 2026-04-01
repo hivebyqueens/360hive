@@ -49,11 +49,11 @@ a {
   text-decoration: none;
 }
 
-.queen-shell {
+/* .queen-shell {
   position: relative;
   min-height: 100vh;
   background: var(--bg);
-}
+} */
 
 .ambient {
   display: none;
