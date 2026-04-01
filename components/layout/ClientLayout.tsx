@@ -20,9 +20,9 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>
-      <div className="queen-shell">
+      <div>
         <Navigation />
-        <main className="content">{children}</main>
+        <main >{children}</main>
         <Footer />
         <Chatbot language={language} />
       </div>

@@ -27,7 +27,7 @@ export function Navigation() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-[9999] pt-3 transition-all duration-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.nav
             layout
             style={{
