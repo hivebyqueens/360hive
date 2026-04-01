@@ -11,12 +11,12 @@ const headingFont = Sora({ variable: "--font-heading", subsets: ["latin"] });
 const bodyFont = Manrope({ variable: "--font-body", subsets: ["latin"] });
 
 function LayoutInner({ children }: { children: React.ReactNode }) {
-  const { mode, language } = useApp();
+  const { language } = useApp();
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", mode);
-    document.documentElement.classList.toggle("dark", mode === "dark");
-  }, [mode]);
+    document.documentElement.classList.add("dark");
+    document.documentElement.setAttribute("data-theme", "dark");
+  }, []);
 
   return (
     <div className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>

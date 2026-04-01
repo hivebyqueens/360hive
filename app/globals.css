@@ -13,12 +13,6 @@
   --gradient-main: linear-gradient(120deg, #ff0066 0%, #200048 100%);
 }
 
-[data-theme="light"] {
-  --bg: #ffffff;
-  --text: #010717;
-  --text-soft: #505a79;
-  --line: rgba(1, 7, 23, 0.2);
-}
 
 * {
   box-sizing: border-box;

@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import { Menu, X, Moon, Sun, Globe, ChevronRight } from "lucide-react";
+import { Menu, X, Globe, ChevronRight } from "lucide-react";
 import { useApp } from "@/lib/i18n-context";
 
 export function Navigation() {
-  const { language, setLanguage, mode, setMode, t } = useApp();
+  const { language, setLanguage, t } = useApp();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -81,15 +81,7 @@ export function Navigation() {
                 </div>
               </div>
 
-              {/* Theme Toggle */}
-              <button
-                onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors text-gray-500 dark:text-gray-400"
-              >
-                {mode === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-
-              <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+<motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
                 <Button asChild className="bg-gradient-to-r from-[#FF0066] to-[#7000FF] hover:opacity-90 text-white border-none rounded-xl h-10 px-6 text-[11px] font-bold uppercase tracking-widest shadow-lg shadow-pink-500/20">
                   <Link href="/quote">{t.nav.quote}</Link>
                 </Button>
@@ -162,12 +154,6 @@ export function Navigation() {
                       </button>
                     ))}
                   </div>
-                  <button
-                    onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-                    className="p-3 bg-gray-100 dark:bg-white/5 rounded-xl"
-                  >
-                    {mode === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-                  </button>
                 </div>
                 <Button asChild className="w-full bg-gradient-to-r from-[#FF0066] to-[#7000FF] h-14 rounded-2xl text-sm font-bold uppercase tracking-[0.2em]">
                   <Link href="/quote" onClick={() => setIsOpen(false)}>{t.nav.quote}</Link>

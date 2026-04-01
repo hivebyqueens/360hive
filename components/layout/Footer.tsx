@@ -9,7 +9,7 @@ import { useApp } from "@/lib/i18n-context";
 export function Footer() {
   const { t } = useApp();
   const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -88,27 +88,51 @@ export function Footer() {
           <form
             style={{ transform: "translateZ(30px)" }}
             className="w-full lg:w-auto"
-            onSubmit={(e) => { e.preventDefault(); if (email) setIsSubscribed(true); }}
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!email || status === "loading") return;
+              setStatus("loading");
+              try {
+                const res = await fetch("/api/newsletter", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email }),
+                });
+                const data = await res.json();
+                setStatus(data.success ? "success" : "error");
+              } catch {
+                setStatus("error");
+              }
+            }}
           >
-            {isSubscribed ? (
+            {status === "success" ? (
               <p className="text-[#FF0066] font-black uppercase tracking-widest text-lg">{t.footer.subscribed} ✓</p>
             ) : (
-              <div className="flex items-center border-b-2 border-white/10 py-3 focus-within:border-[#FF0066] transition-all duration-500">
-                <input
-                  type="email"
-                  placeholder={t.footer.placeholder.toUpperCase()}
-                  className="bg-transparent border-none w-full lg:w-[380px] px-0 py-2 text-white text-lg font-black uppercase tracking-widest focus:outline-none placeholder:text-gray-700"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.2, x: 8 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="ml-4 text-[#FF0066]"
-                >
-                  <ArrowRight size={32} strokeWidth={2.5} />
-                </motion.button>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center border-b-2 border-white/10 py-3 focus-within:border-[#FF0066] transition-all duration-500">
+                  <input
+                    type="email"
+                    placeholder={t.footer.placeholder.toUpperCase()}
+                    className="bg-transparent border-none w-full lg:w-[380px] px-0 py-2 text-white text-lg font-black uppercase tracking-widest focus:outline-none placeholder:text-gray-700"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === "loading"}
+                  />
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.2, x: 8 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="ml-4 text-[#FF0066] disabled:opacity-50"
+                    disabled={status === "loading"}
+                  >
+                    {status === "loading"
+                      ? <span className="w-5 h-5 border-2 border-[#FF0066] border-t-transparent rounded-full animate-spin inline-block" />
+                      : <ArrowRight size={32} strokeWidth={2.5} />}
+                  </motion.button>
+                </div>
+                {status === "error" && (
+                  <p className="text-xs text-red-400 font-bold uppercase tracking-widest">Something went wrong. Try again.</p>
+                )}
               </div>
             )}
           </form>
