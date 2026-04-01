@@ -167,7 +167,7 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Finishing Pro Detail: Magenta bottom glow line */}
+
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4006e]/40 to-transparent" />
     </footer>
   );

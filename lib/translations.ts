@@ -471,4 +471,10 @@ export const translations = {
   },
 } as const;
 
-export type Translations = typeof translations.en;
+type WidenStrings<T> = T extends string
+  ? string
+  : T extends readonly (infer U)[]
+  ? readonly WidenStrings<U>[]
+  : { readonly [K in keyof T]: WidenStrings<T[K]> };
+
+export type Translations = WidenStrings<typeof translations.en>;
