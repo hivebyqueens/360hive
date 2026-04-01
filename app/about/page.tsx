@@ -64,7 +64,7 @@ const teamMembers = [
     role: "Sales & Graphic Designer",
     image: "/image/fortune.jpeg",
     description: "The connection engine. Merging market strategy with visual storytelling.",
-    skills: ["Strategy", "UI/UX", "Branding"],
+    skills: ["Documentation", "UI/UX", "Branding"],
     icon: TrendingUp,
     glow: "rgba(212,0,110,0.28)",
     border: "rgba(212,0,110,0.30)",
@@ -88,9 +88,9 @@ export default function AboutPage() {
       style={{ background: "#070010" }}
     >
 
-      {/* ══ PERSISTENT BACKGROUND CANVAS ═══════════ */}
+      
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        {/* Primary bloom — upper centre-right */}
+      
         <motion.div
           animate={{ scale: [1, 1.07, 1], opacity: [0.52, 0.72, 0.52] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -101,7 +101,7 @@ export default function AboutPage() {
             filter: "blur(72px)",
           }}
         />
-        {/* Secondary — lower left */}
+       
         <motion.div
           animate={{ scale: [1, 1.11, 1], opacity: [0.20, 0.33, 0.20] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 4 }}
@@ -112,7 +112,7 @@ export default function AboutPage() {
             filter: "blur(88px)",
           }}
         />
-        {/* Tertiary — right mid */}
+       
         <motion.div
           animate={{ scale: [1, 1.09, 1], opacity: [0.14, 0.24, 0.14] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 7 }}
@@ -123,24 +123,21 @@ export default function AboutPage() {
             filter: "blur(82px)",
           }}
         />
-        {/* Subtle dot grid */}
+    
         <div className="absolute inset-0" style={{
           backgroundImage: "linear-gradient(to right,rgba(255,255,255,0.013) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.013) 1px,transparent 1px)",
           backgroundSize: "60px 60px",
         }} />
       </div>
 
-      {/* ════════════════════════════════════════════ */}
-      {/*  HERO                                        */}
-      {/* ════════════════════════════════════════════ */}
+
       <section className="relative min-h-screen flex items-center pt-28 pb-20 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-12 gap-14 items-center">
 
-            {/* Left */}
+          
             <motion.div style={{ y: heroY, opacity: heroOpacity }} className="lg:col-span-7 flex flex-col gap-7">
 
-              {/* badge */}
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
