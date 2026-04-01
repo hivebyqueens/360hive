@@ -27,7 +27,7 @@ function GlowButton({ href, children }: { href: string; children: React.ReactNod
     >
       <Link
         href={href}
-        className="flex items-center gap-3 px-10 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white rounded-full"
+        className="flex items-center gap-3 px-10 py-4 text-[12px] font-bold  tracking-[0.2em] text-white rounded-full"
         style={{
           background: "linear-gradient(135deg, #d4006e 0%, #8c00c8 100%)",
           boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 1px rgba(255,100,180,0.25)",
@@ -40,7 +40,7 @@ function GlowButton({ href, children }: { href: string; children: React.ReactNod
   );
 }
 
-/* ─── Signature Magenta Dot ─────────────────────── */
+
 const Dot = () => (
   <div className="absolute top-8 left-8 flex items-center justify-center">
     <div className="w-1.5 h-1.5 rounded-full bg-[#d4006e] shadow-[0_0_12px_#d4006e] z-10" />
@@ -61,7 +61,7 @@ export default function HomePage() {
   return (
     <main ref={containerRef} className="relative text-white overflow-x-hidden" style={{ background: "#070010" }}>
       
-      {/* ══ PERSISTENT BACKGROUND CANVAS (From About Page) ══ */}
+    
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <motion.div
           animate={{ scale: [1, 1.07, 1], opacity: [0.52, 0.72, 0.52] }}
