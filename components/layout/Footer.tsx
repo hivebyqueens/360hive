@@ -38,7 +38,7 @@ export function Footer() {
           <div className="max-w-2xl text-center lg:text-left">
             <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#d4006e] mb-6">Newsletter</p>
             <h3 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-[0.9]">
-              Join the hive. <br />
+              Join 360 hive. <br />
               <span className="text-white/40">Stay ahead of digital.</span>
             </h3>
           </div>

@@ -600,9 +600,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════ */}
-      {/*  CTA  — floating centred glass panel         */}
-      {/* ════════════════════════════════════════════ */}
+
       <section className="relative py-28 px-6 z-10 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 58% 55% at 50% 50%, rgba(212,0,110,0.13) 0%, rgba(100,0,200,0.08) 48%, transparent 70%)" }} />
