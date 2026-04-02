@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           </h1>
         </div>
 
-        {/* Content card */}
+  
         <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 sm:p-10 shadow-[0_0_30px_rgba(200,0,255,0.15)] space-y-6">
           <p className="text-base sm:text-lg text-white/70 leading-relaxed">
             We respect your privacy. 360 Hive by Queens only uses submitted contact details
