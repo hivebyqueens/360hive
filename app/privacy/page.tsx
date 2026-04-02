@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-32 sm:py-40">
-        {/* Header */}
+     
         <div className="mb-12">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ff0066] animate-pulse" />
