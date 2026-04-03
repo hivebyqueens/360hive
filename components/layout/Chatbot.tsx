@@ -227,7 +227,7 @@ export function Chatbot({ language }: { language: Language }) {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 truncate">{t.status}</p>
                 </div>
 
-                {/* Close */}
+        
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
@@ -238,7 +238,7 @@ export function Chatbot({ language }: { language: Language }) {
                 </motion.button>
               </div>
 
-              {/* ── Messages ───────────────────────────── */}
+           
               <div
                 ref={scrollRef}
                 className="flex-1 overflow-y-auto px-4 sm:px-5 py-5 space-y-4"
