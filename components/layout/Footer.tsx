@@ -150,7 +150,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── BOTTOM UTILITY BAR ── */}
+      
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-2 text-[10px] font-bold text-gray-600">
