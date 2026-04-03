@@ -131,7 +131,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Services Grid Column */}
+      
           <div className="lg:col-span-2">
             <p className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-10 opacity-30">Core services</p>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-1">
