@@ -89,7 +89,7 @@ export function Footer() {
       
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           
-          {/* Brand Column */}
+     
           <div className="space-y-10">
             <div>
               <h2 className="text-3xl font-black tracking-tighter italic text-white mb-4">
@@ -113,7 +113,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Navigation Column */}
+        
           <div>
             <p className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-10 opacity-30">Quick links</p>
             <ul className="space-y-4">
