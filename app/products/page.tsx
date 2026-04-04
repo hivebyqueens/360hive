@@ -17,12 +17,12 @@ interface Project {
 }
 
 const projects: Project[] = [
-  { id: 1, title: "Ranik Creations", category: "Web Development", description: "A luxury fashion e-commerce platform blending high-end aesthetics with custom conversion logic.", image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070", tags: ["Next.js", "E-commerce", "UI/UX"] },
-  { id: 2, title: "Abiru Real Estate", category: "Web Development", description: "PropTech portal featuring interactive listing matrices and immersive property viewing experiences.", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073", tags: ["PropTech", "Maps API", "3D"] },
-  { id: 3, title: "Rwanda Urology Association", category: "Web Development", description: "A specialized medical ecosystem designed for research sharing and association management.", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070", tags: ["HealthTech", "Community", "Scale"] },
-  { id: 4, title: "Solaris Brand Film", category: "Media Production", description: "Cinematic launch film utilizing motion control and advanced color science techniques.", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070", tags: ["4K", "Post-Pro", "VFX"] },
-  { id: 5, title: "Alpha Growth Engine", category: "Marketing", description: "Performance marketing engine that scaled digital reach by 400% through AI-driven targeting.", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015", tags: ["Ad-Tech", "Growth", "Analytics"] },
-  { id: 6, title: "CyberCore Identity", category: "Design", description: "A comprehensive visual identity system for a next-generation cybersecurity enterprise.", image: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964", tags: ["Branding", "UI/UX", "3D Assets"] },
+  { id: 1, title: "ranik creations", category: "Web Development", description: "A luxury fashion e-commerce platform blending high-end aesthetics with custom conversion logic.", image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070", tags: ["Next.js", "E-commerce", "UI/UX"] },
+  { id: 2, title: "abiru real estate", category: "Web Development", description: "PropTech portal featuring interactive listing matrices and immersive property viewing experiences.", image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073", tags: ["PropTech", "Maps API", "3D"] },
+  { id: 3, title: "rwanda urology association", category: "Web Development", description: "A specialized medical ecosystem designed for research sharing and association management.", image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070", tags: ["HealthTech", "Community", "Scale"] },
+  { id: 4, title: "solaris brand film", category: "Media Production", description: "Cinematic launch film utilizing motion control and advanced color science techniques.", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070", tags: ["4K", "Post-Pro", "VFX"] },
+  { id: 5, title: "alpha growth engine", category: "Marketing", description: "Performance marketing engine that scaled digital reach by 400% through AI-driven targeting.", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015", tags: ["Ad-Tech", "Growth", "Analytics"] },
+  { id: 6, title: "cybercore identity", category: "Design", description: "A comprehensive visual identity system for a next-generation cybersecurity enterprise.", image: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964", tags: ["Branding", "UI/UX", "3D Assets"] },
 ];
 
 function getIcon(category: string) {
@@ -83,10 +83,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <div className="p-1.5 rounded-lg bg-white/10 backdrop-blur-sm border border-white/15">
               {getIcon(project.category)}
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#ff0066]">{project.category}</span>
+            <span className="text-[10px] font-bold lowercasetracking-[0.3em] text-[#ff0066]">{project.category}</span>
           </div>
 
-          <h3 className="text-3xl font-black italic uppercase tracking-tight leading-tight mb-4 text-white">
+          <h3 className="text-3xl font-black italic lowercasetracking-tight leading-tight mb-4 text-white">
             {project.title}
           </h3>
 
@@ -94,12 +94,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <p className="text-white/70 text-sm leading-relaxed mb-4">{project.description}</p>
             <div className="flex flex-wrap gap-2 mb-5">
               {project.tags.map((tag) => (
-                <span key={tag} className="text-[9px] font-bold border border-white/20 px-3 py-1 rounded-lg uppercase tracking-wide bg-white/10 text-white/80">
+                <span key={tag} className="text-[9px] font-bold border border-white/20 px-3 py-1 rounded-lg lowercasetracking-wide bg-white/10 text-white/80">
                   {tag}
                 </span>
               ))}
             </div>
-            <button className="w-full h-11 rounded-xl font-bold uppercase tracking-widest text-[10px] text-white transition-all flex items-center justify-center gap-2"
+            <button className="w-full h-11 rounded-xl font-bold lowercasetracking-widest text-[10px] text-white transition-all flex items-center justify-center gap-2"
               style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.35)" }}>
               View Project <ArrowRight size={13} />
             </button>
@@ -154,11 +154,11 @@ export default function WorkPage() {
         className="max-w-7xl mx-auto mb-20 text-center relative z-10"
       >
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-white/50 mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold lowercasetracking-[0.4em] text-white/50 mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ff0066] animate-pulse" />
             {t.products.badge}
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-[0.85] mb-6 text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic lowercasetracking-tighter leading-[0.85] mb-6 text-white">
             {t.products.title1}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] via-[#7000ff] to-[#ff0066]">
               {t.products.title2}
@@ -175,7 +175,7 @@ export default function WorkPage() {
             <button
               key={key}
               onClick={() => setActiveTab(key)}
-              className={`px-5 sm:px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`px-5 sm:px-6 py-3 rounded-xl text-[10px] font-black lowercasetracking-widest transition-all ${
                 activeTab === key
                   ? "bg-[#ff0066] text-white shadow-lg shadow-pink-500/25"
                   : "text-white/50 hover:text-white hover:bg-white/5"
@@ -207,19 +207,19 @@ export default function WorkPage() {
           className="max-w-4xl mx-auto p-10 sm:p-14 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg text-center relative overflow-hidden shadow-[0_0_30px_rgba(200,0,255,0.15)] hover:shadow-[0_0_50px_rgba(200,0,255,0.25)] transition-all duration-300"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,0,102,0.08),transparent_60%)] pointer-events-none" />
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 relative z-10 text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black italic lowercasetracking-tighter mb-4 relative z-10 text-white">
             {t.products.cta_title1} <br />
             <span className="text-[#ff0066]">{t.products.cta_title2}</span>
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 relative z-10">
             <Link
               href="/quote"
-              className="w-full sm:w-auto px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] text-white flex items-center justify-center gap-2 transition-all"
+              className="w-full sm:w-auto px-10 py-4 rounded-2xl font-black lowercasetracking-widest text-[11px] text-white flex items-center justify-center gap-2 transition-all"
               style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.5)" }}
             >
               {t.products.cta_btn}
             </Link>
-            <div className="flex items-center gap-2 px-5 py-3 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/50">
+            <div className="flex items-center gap-2 px-5 py-3 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold lowercasetracking-widest text-white/50">
               <ShieldCheck size={14} className="text-[#ff0066]" />
               {t.products.cta_secure}
             </div>
