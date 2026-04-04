@@ -47,7 +47,7 @@ export default function ContactPage() {
     }`;
 
   const labelClass = (field: string) =>
-    `block text-[10px] font-bold uppercase tracking-widest mb-2 transition-colors ${
+    `block text-[10px] font-bold lowercasetracking-widest mb-2 transition-colors ${
       focused === field ? "text-[#ff0066]" : "text-white/40"
     }`;
 
@@ -65,11 +65,11 @@ export default function ContactPage() {
         {/* HEADER */}
         <section className="mb-16 sm:mb-20">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold lowercasetracking-[0.3em] text-white/50 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff0066] animate-pulse" />
               {t.contact.badge}
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter leading-[0.85] mb-4 text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic lowercasetracking-tighter leading-[0.85] mb-4 text-white">
               {t.contact.title1}{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#7000ff]">
                 {t.contact.title2}
@@ -88,7 +88,7 @@ export default function ContactPage() {
             transition={{ delay: 0.15 }}
             className="lg:col-span-4 space-y-8"
           >
-            <h3 className="text-lg font-black italic uppercase tracking-tight text-white/80">{t.contact.info_title}</h3>
+            <h3 className="text-lg font-black italic lowercasetracking-tight text-white/80">{t.contact.info_title}</h3>
 
             <div className="space-y-4">
               {contactItems.map((item, i) => (
@@ -101,7 +101,7 @@ export default function ContactPage() {
                     <item.icon size={18} className="text-[#ff0066] group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-0.5">{item.label}</p>
+                    <p className="text-[9px] font-bold lowercasetracking-widest text-white/40 mb-0.5">{item.label}</p>
                     <p className="text-sm font-semibold text-white/90">{item.value}</p>
                   </div>
                 </motion.div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
 
             {/* Socials */}
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-4">Follow Our Work</p>
+              <p className="text-[10px] font-bold lowercasetracking-widest text-white/40 mb-4">Follow Our Work</p>
               <div className="flex gap-3">
                 {[Linkedin, Instagram, Twitter].map((Icon, i) => (
                   <motion.a
@@ -154,11 +154,11 @@ export default function ContactPage() {
                       >
                         <CheckCircle2 size={36} className="text-green-500" />
                       </motion.div>
-                      <h3 className="text-3xl font-black italic uppercase mb-3 text-white">{t.contact.success_title}</h3>
+                      <h3 className="text-3xl font-black italic lowercasemb-3 text-white">{t.contact.success_title}</h3>
                       <p className="text-white/50 mb-8">{t.contact.success_sub}</p>
                       <button
                         onClick={() => { setStatus("idle"); setFormData({ name: "", email: "", subject: "", message: "" }); }}
-                        className="px-8 py-3 rounded-xl border border-white/15 text-white/70 hover:border-white/30 hover:text-white transition-all font-bold uppercase tracking-widest text-[11px]"
+                        className="px-8 py-3 rounded-xl border border-white/15 text-white/70 hover:border-white/30 hover:text-white transition-all font-bold lowercasetracking-widest text-[11px]"
                       >
                         Send another
                       </button>
@@ -245,7 +245,7 @@ export default function ContactPage() {
                         disabled={status === "loading"}
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
-                        className="w-full h-14 rounded-2xl text-white font-black uppercase tracking-widest text-[11px] disabled:opacity-70 transition-all flex items-center justify-center gap-2"
+                        className="w-full h-14 rounded-2xl text-white font-black lowercasetracking-widest text-[11px] disabled:opacity-70 transition-all flex items-center justify-center gap-2"
                         style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.4)" }}
                       >
                         {status === "loading" ? (
@@ -279,12 +279,12 @@ export default function ContactPage() {
           className="mt-24 p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-lg shadow-[0_0_30px_rgba(200,0,255,0.15)] hover:shadow-[0_0_50px_rgba(200,0,255,0.25)] text-center relative overflow-hidden transition-all duration-300"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,0,102,0.08),transparent_60%)] pointer-events-none" />
-          <h2 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter mb-4 text-white">
+          <h2 className="text-3xl md:text-4xl font-black italic lowercasetracking-tighter mb-4 text-white">
             {t.contact.cta_title.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="text-[#ff0066]">{t.contact.cta_title.split(" ").slice(-1)}</span>
           </h2>
           <p className="text-white/50 mb-6 max-w-md mx-auto">{t.contact.cta_sub}</p>
-          <Link href="/quote" className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest text-[#ff0066] hover:gap-4 transition-all group">
+          <Link href="/quote" className="inline-flex items-center gap-2 text-sm font-black lowercasetracking-widest text-[#ff0066] hover:gap-4 transition-all group">
             {t.contact.cta_link}
             <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
