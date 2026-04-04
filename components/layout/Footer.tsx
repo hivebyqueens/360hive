@@ -36,7 +36,7 @@ export function Footer() {
         {/* ── NEWSLETTER SECTION: PRO MAX GLASS ── */}
         <section className="mb-32 flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12">
           <div className="max-w-2xl text-center lg:text-left">
-            <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#d4006e] mb-6">Newsletter</p>
+            <p className="text-[11px] font-bold lowercasetracking-[0.4em] text-[#d4006e] mb-6">Newsletter</p>
             <h3 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter leading-[0.9]">
               Join 360 hive. <br />
               <span className="text-white/40">Stay ahead of digital.</span>
@@ -115,7 +115,7 @@ export function Footer() {
 
         
           <div>
-            <p className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-10 opacity-30">Quick links</p>
+            <p className="text-white text-[11px] font-bold tracking-[0.3em] lowercasemb-10 opacity-30">Quick links</p>
             <ul className="space-y-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
@@ -133,7 +133,7 @@ export function Footer() {
 
       
           <div className="lg:col-span-2">
-            <p className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-10 opacity-30">Core services</p>
+            <p className="text-white text-[11px] font-bold tracking-[0.3em] lowercasemb-10 opacity-30">Core services</p>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-1">
               {serviceNames.map((service, i) => (
                 <motion.div

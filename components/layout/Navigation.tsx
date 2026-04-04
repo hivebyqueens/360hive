@@ -72,7 +72,7 @@ export function Navigation() {
                       : "text-white/30 hover:text-white/60"
                   }`}
                 >
-                  {lang.toUpperCase()}
+                  {lang.toLowerCase()}
                 </button>
               ))}
             </div>
@@ -140,7 +140,7 @@ export function Navigation() {
                         language === l ? "text-[#d4006e]" : "text-white/20"
                       }`}
                     >
-                      {l.toUpperCase()}
+                      {l.toLowerCase()}
                     </button>
                   ))}
                 </div>

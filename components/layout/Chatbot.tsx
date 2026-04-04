@@ -221,10 +221,10 @@ export function Chatbot({ language }: { language: Language }) {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-[13px] font-black uppercase tracking-widest text-white italic truncate">{t.title}</h3>
+                    <h3 className="text-[13px] font-black lowercase tracking-widest text-white italic truncate">{t.title}</h3>
                     <Sparkles size={11} className="text-[#ff0066] flex-shrink-0" />
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 truncate">{t.status}</p>
+                  <p className="text-[10px] font-bold lowercase tracking-widest text-white/40 truncate">{t.status}</p>
                 </div>
 
         
@@ -297,7 +297,7 @@ export function Chatbot({ language }: { language: Language }) {
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.96 }}
                             onClick={() => onOptionClick(opt)}
-                            className="group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wide transition-all duration-200 border"
+                            className="group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold lowercase tracking-wide transition-all duration-200 border"
                             style={{
                               background: "rgba(255,0,102,0.06)",
                               borderColor: "rgba(255,0,102,0.25)",
@@ -370,7 +370,7 @@ export function Chatbot({ language }: { language: Language }) {
                               style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)" }}>
                               <Zap size={13} className="text-white" />
                             </div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70">Brief Ready</p>
+                            <p className="text-[10px] font-black lowercase tracking-[0.3em] text-white/70">Brief Ready</p>
                           </div>
 
                           {/* Summary pills */}
@@ -383,7 +383,7 @@ export function Chatbot({ language }: { language: Language }) {
                             ].map(({ label, value }) => (
                               <div key={label} className="px-3 py-2 rounded-xl"
                                 style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.10)" }}>
-                                <p className="text-[9px] font-bold uppercase tracking-widest text-white/40 mb-0.5">{label}</p>
+                                <p className="text-[9px] font-bold lowercase tracking-widest text-white/40 mb-0.5">{label}</p>
                                 <p className="text-[11px] font-bold text-white truncate">{value}</p>
                               </div>
                             ))}
@@ -393,7 +393,7 @@ export function Chatbot({ language }: { language: Language }) {
                             <motion.div
                               whileHover={{ scale: 1.03 }}
                               whileTap={{ scale: 0.97 }}
-                              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all"
+                              className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-[11px] font-black lowercase tracking-[0.2em] text-white transition-all"
                               style={{
                                 background: "linear-gradient(135deg,#ff0066,#7000ff)",
                                 boxShadow: "0 0 24px rgba(255,0,102,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
@@ -439,7 +439,7 @@ export function Chatbot({ language }: { language: Language }) {
                   </motion.button>
                 </form>
 
-                <p className="text-center text-[9px] font-bold uppercase tracking-widest text-white/20 mt-2.5">
+                <p className="text-center text-[9px] font-bold lowercase tracking-widest text-white/20 mt-2.5">
                   {t.poweredBy}
                 </p>
               </div>

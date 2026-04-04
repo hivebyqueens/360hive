@@ -27,9 +27,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ title, desc, icon: Ico
       <div className="w-16 h-16 rounded-2xl bg-[#ff0066]/10 border border-[#ff0066]/20 flex items-center justify-center mb-10 group-hover:bg-[#ff0066] group-hover:text-white transition-all duration-500">
         <Icon size={32} />
       </div>
-      <h3 className="text-3xl font-black italic uppercase font-space mb-4">{title}</h3>
+      <h3 className="text-3xl font-black italic lowercasefont-space mb-4">{title}</h3>
       <p className="text-gray-400 leading-relaxed text-sm mb-8 font-medium">{desc}</p>
-      <Link href="#" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.3em] text-[#ff0066] group-hover:gap-4 transition-all">
+      <Link href="#" className="inline-flex items-center text-[10px] font-black lowercasetracking-[0.3em] text-[#ff0066] group-hover:gap-4 transition-all">
         Explore <ArrowRight size={14} className="ml-2" />
       </Link>
     </motion.div>
