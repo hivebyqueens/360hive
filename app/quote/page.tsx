@@ -21,7 +21,7 @@ function FormInput({
   const [focused, setFocused] = useState(false);
   return (
     <div className="space-y-1.5">
-      <label className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${focused ? "text-[#ff0066]" : "text-white/40"}`}>
+      <label className={`text-[10px] font-bold lowercasetracking-widest transition-colors ${focused ? "text-[#ff0066]" : "text-white/40"}`}>
         {label}
       </label>
       <input
@@ -117,11 +117,11 @@ export default function RequestQuote() {
             <CheckCircle2 size={44} className="text-green-500" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <h2 className="text-4xl font-black italic uppercase tracking-tight mb-4 text-white">{t.quote.success_title}</h2>
+            <h2 className="text-4xl font-black italic lowercasetracking-tight mb-4 text-white">{t.quote.success_title}</h2>
             <p className="text-white/50 leading-relaxed mb-8">{t.quote.success_sub}</p>
             <button
               onClick={() => { setStatus("idle"); setStep(1); setSelectedServices([]); }}
-              className="px-10 py-3 rounded-2xl font-bold uppercase tracking-widest text-[11px] text-white transition-all"
+              className="px-10 py-3 rounded-2xl font-bold lowercasetracking-widest text-[11px] text-white transition-all"
               style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.4)" }}
             >
               Submit Another
@@ -144,10 +144,10 @@ export default function RequestQuote() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* HEADER */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-14">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.4em] text-[#ff0066] mb-6">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold lowercasetracking-[0.4em] text-[#ff0066] mb-6">
             <Sparkles size={12} /> {t.quote.badge}
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter mb-4 text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic lowercasetracking-tighter mb-4 text-white">
             {t.quote.title1}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0066] to-[#7000ff]">{t.quote.title2}</span>
           </h1>
@@ -186,7 +186,7 @@ export default function RequestQuote() {
                       )}
                     </div>
                   ))}
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 ml-2">
+                  <span className="text-[10px] font-bold lowercasetracking-widest text-white/40 ml-2">
                     {t.quote.step} {step} {t.quote.of} 3
                   </span>
                 </div>
@@ -195,7 +195,7 @@ export default function RequestQuote() {
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2 text-white">{t.quote.step1_title}</h2>
+                      <h2 className="text-2xl font-black italic lowercasetracking-tight mb-2 text-white">{t.quote.step1_title}</h2>
                       <p className="text-white/40 text-sm mb-8">Select all that apply</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {services.map((s) => {
@@ -233,7 +233,7 @@ export default function RequestQuote() {
 
                   {step === 2 && (
                     <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2 text-white">{t.quote.step2_title}</h2>
+                      <h2 className="text-2xl font-black italic lowercasetracking-tight mb-2 text-white">{t.quote.step2_title}</h2>
                       <p className="text-white/40 text-sm mb-8">So we know who we're talking to</p>
                       <div className="grid md:grid-cols-2 gap-6 mb-6">
                         <FormInput label={t.quote.name} value={formData.name} onChange={(v) => update("name", v)} placeholder={t.quote.name_placeholder} required />
@@ -242,7 +242,7 @@ export default function RequestQuote() {
                         <FormInput label={t.quote.company} value={formData.company} onChange={(v) => update("company", v)} placeholder={t.quote.company_placeholder} />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">{t.quote.description}</label>
+                        <label className="text-[10px] font-bold lowercasetracking-widest text-white/40">{t.quote.description}</label>
                         <textarea
                           rows={4}
                           value={formData.description}
@@ -256,11 +256,11 @@ export default function RequestQuote() {
 
                   {step === 3 && (
                     <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                      <h2 className="text-2xl font-black italic uppercase tracking-tight mb-2 text-white">{t.quote.step3_title}</h2>
+                      <h2 className="text-2xl font-black italic lowercasetracking-tight mb-2 text-white">{t.quote.step3_title}</h2>
                       <p className="text-white/40 text-sm mb-8">Help us understand the scope</p>
                       <div className="grid md:grid-cols-2 gap-10">
                         <div>
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-4 block">{t.quote.budget_label}</label>
+                          <label className="text-[10px] font-bold lowercasetracking-widest text-white/40 mb-4 block">{t.quote.budget_label}</label>
                           <div className="space-y-2.5">
                             {budgetRanges.map((b) => (
                               <button
@@ -278,7 +278,7 @@ export default function RequestQuote() {
                           </div>
                         </div>
                         <div>
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-4 block">{t.quote.timeline_label}</label>
+                          <label className="text-[10px] font-bold lowercasetracking-widest text-white/40 mb-4 block">{t.quote.timeline_label}</label>
                           <div className="space-y-2.5">
                             {timelines.map((tl) => (
                               <button
@@ -304,7 +304,7 @@ export default function RequestQuote() {
                           {t.quote.file_label}{" "}
                           <span className="text-[#ff0066] font-bold cursor-pointer">{t.quote.file_browse}</span>
                         </p>
-                        <p className="text-[10px] text-white/25 mt-1.5 uppercase tracking-widest">{t.quote.file_types}</p>
+                        <p className="text-[10px] text-white/25 mt-1.5 lowercasetracking-widest">{t.quote.file_types}</p>
                       </div>
 
                       {status === "error" && (
@@ -325,7 +325,7 @@ export default function RequestQuote() {
                   {step > 1 && (
                     <button
                       onClick={() => setStep((s) => s - 1)}
-                      className="px-6 h-12 rounded-xl border border-white/15 font-bold uppercase tracking-widest text-[10px] text-white/60 hover:border-white/30 hover:text-white transition-all flex items-center gap-1"
+                      className="px-6 h-12 rounded-xl border border-white/15 font-bold lowercasetracking-widest text-[10px] text-white/60 hover:border-white/30 hover:text-white transition-all flex items-center gap-1"
                     >
                       <ChevronLeft size={15} /> {t.quote.back}
                     </button>
@@ -335,7 +335,7 @@ export default function RequestQuote() {
                       <button
                         onClick={() => setStep((s) => s + 1)}
                         disabled={step === 1 && selectedServices.length === 0}
-                        className="px-8 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] text-white transition-all disabled:opacity-40 flex items-center gap-1"
+                        className="px-8 h-12 rounded-xl font-bold lowercasetracking-widest text-[10px] text-white transition-all disabled:opacity-40 flex items-center gap-1"
                         style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.3)" }}
                       >
                         {t.quote.next} <ChevronRight size={15} />
@@ -344,7 +344,7 @@ export default function RequestQuote() {
                       <button
                         onClick={handleSubmit}
                         disabled={status === "loading" || !formData.name || !formData.email}
-                        className="px-10 h-12 rounded-xl font-bold uppercase tracking-widest text-[10px] text-white disabled:opacity-50 flex items-center gap-2 transition-all"
+                        className="px-10 h-12 rounded-xl font-bold lowercasetracking-widest text-[10px] text-white disabled:opacity-50 flex items-center gap-2 transition-all"
                         style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)", boxShadow: "0 0 20px rgba(200,0,255,0.3)" }}
                       >
                         {status === "loading" ? (
@@ -379,7 +379,7 @@ export default function RequestQuote() {
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#ff0066] to-[#7000ff] flex items-center justify-center">
                     <Bot size={18} className="text-white" />
                   </div>
-                  <h4 className="font-black italic uppercase text-xs tracking-widest text-white">{t.quote.ai_title}</h4>
+                  <h4 className="font-black italic lowercasetext-xs tracking-widest text-white">{t.quote.ai_title}</h4>
                 </div>
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -394,7 +394,7 @@ export default function RequestQuote() {
                 </AnimatePresence>
                 <div className="space-y-2.5">
                   {[{ icon: Zap, text: "Structure First" }, { icon: Palette, text: "Full Design" }, { icon: Layers, text: "Full Functionality" }].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                    <div key={text} className="flex items-center gap-2 text-[10px] font-bold lowercasetracking-widest text-white/40">
                       <Icon size={12} className="text-[#ff0066]" /> {text}
                     </div>
                   ))}
@@ -413,7 +413,7 @@ export default function RequestQuote() {
                     <Icon size={16} className="text-white/40" />
                   </div>
                   <div>
-                    <h6 className="text-xs font-black uppercase tracking-widest mb-1 text-white">{title}</h6>
+                    <h6 className="text-xs font-black lowercasetracking-widest mb-1 text-white">{title}</h6>
                     <p className="text-[11px] text-white/50 leading-relaxed">{desc}</p>
                   </div>
                 </div>
@@ -426,7 +426,7 @@ export default function RequestQuote() {
               className="block px-7 py-5 rounded-2xl text-center group hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(200,0,255,0.3)]"
               style={{ background: "linear-gradient(135deg,#ff0066,#7000ff)" }}
             >
-              <p className="text-[9px] font-bold uppercase tracking-widest text-white/70 mb-1">{t.quote.direct_contact}</p>
+              <p className="text-[9px] font-bold lowercasetracking-widest text-white/70 mb-1">{t.quote.direct_contact}</p>
               <h5 className="font-black text-white group-hover:scale-105 transition-transform text-sm">hello@360hive.rw</h5>
             </a>
           </div>
