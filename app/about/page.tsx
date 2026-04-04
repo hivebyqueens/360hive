@@ -25,7 +25,7 @@ function GlowButton({ href, children }: { href: string; children: React.ReactNod
     >
       <Link
         href={href}
-        className="flex items-center gap-3 px-9 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white rounded-full"
+        className="flex items-center gap-3 px-9 py-4 text-[12px] font-bold lowercasetracking-[0.2em] text-white rounded-full"
         style={{
           background: "linear-gradient(135deg, #d4006e 0%, #8c00c8 100%)",
           boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 0 0 1px rgba(255,100,180,0.25)",
@@ -149,7 +149,7 @@ export default function AboutPage() {
                 }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#d4006e] animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.45em]" style={{ color: "rgba(255,255,255,0.48)" }}>
+                <span className="text-[10px] font-bold lowercasetracking-[0.45em]" style={{ color: "rgba(255,255,255,0.48)" }}>
                   {t.about.badge}
                 </span>
               </motion.div>
@@ -206,7 +206,7 @@ export default function AboutPage() {
                     +50
                   </div>
                 </div>
-                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.28)" }}>
+                <p className="text-[10px] font-bold lowercasetracking-widest" style={{ color: "rgba(255,255,255,0.28)" }}>
                   {t.home.team_label}
                 </p>
               </motion.div>
@@ -273,7 +273,7 @@ export default function AboutPage() {
                     }}
                   >
                     <p className="text-xl font-black text-white">{s.val}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest mt-0.5" style={{ color: "rgba(255,255,255,0.32)" }}>{s.label}</p>
+                    <p className="text-[10px] font-bold lowercasetracking-widest mt-0.5" style={{ color: "rgba(255,255,255,0.32)" }}>{s.label}</p>
                   </motion.div>
                 ))}
               </div>
@@ -288,7 +288,7 @@ export default function AboutPage() {
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
           style={{ opacity: 0.32 }}
         >
-          <span className="text-[9px] font-bold uppercase tracking-[0.4em]" style={{ color: "rgba(255,255,255,0.38)" }}>Scroll</span>
+          <span className="text-[9px] font-bold lowercasetracking-[0.4em]" style={{ color: "rgba(255,255,255,0.38)" }}>Scroll</span>
           <div className="w-px h-10 bg-gradient-to-b from-[#d4006e] to-transparent" />
         </motion.div>
       </section>
@@ -325,11 +325,11 @@ export default function AboutPage() {
 
             <div className="flex items-center gap-3 mb-7">
               <div className="w-8 h-px" style={{ background: "#d4006e" }} />
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em]" style={{ color: "#d4006e" }}>
+              <span className="text-[10px] font-bold lowercasetracking-[0.42em]" style={{ color: "#d4006e" }}>
                 {t.about.mission_label}
               </span>
             </div>
-            <h2 className="text-4xl font-black italic uppercase tracking-tight mb-5 text-white">
+            <h2 className="text-4xl font-black italic lowercasetracking-tight mb-5 text-white">
               {t.about.mission_title}
             </h2>
             <p className="text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.48)" }}>
@@ -368,12 +368,12 @@ export default function AboutPage() {
             </div>
 
             <div className="flex items-center gap-3 mb-7 justify-end">
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em]" style={{ color: "#b066ff" }}>
+              <span className="text-[10px] font-bold lowercasetracking-[0.42em]" style={{ color: "#b066ff" }}>
                 {t.about.vision_label}
               </span>
               <div className="w-8 h-px" style={{ background: "#8c00c8" }} />
             </div>
-            <h2 className="text-4xl font-black italic uppercase tracking-tight mb-5 text-white text-right">
+            <h2 className="text-4xl font-black italic lowercasetracking-tight mb-5 text-white text-right">
               {t.about.vision_title}
             </h2>
             <p className="text-lg leading-relaxed text-right" style={{ color: "rgba(255,255,255,0.48)" }}>
@@ -406,10 +406,10 @@ export default function AboutPage() {
           {/* heading row */}
           <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em] mb-3 block" style={{ color: "#d4006e" }}>
+              <span className="text-[10px] font-bold lowercasetracking-[0.42em] mb-3 block" style={{ color: "#d4006e" }}>
                 {t.about.team_label}
               </span>
-              <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white">
+              <h2 className="text-4xl md:text-6xl font-black italic lowercasetracking-tighter text-white">
                 {t.about.team_title}
               </h2>
             </motion.div>
@@ -476,10 +476,10 @@ export default function AboutPage() {
 
                   {/* bottom info */}
                   <div className="absolute inset-0 p-7 flex flex-col justify-end">
-                    <h3 className="text-xl font-black italic uppercase tracking-tight mb-1 text-white group-hover:text-[#ff66b3] transition-colors leading-tight">
+                    <h3 className="text-xl font-black italic lowercasetracking-tight mb-1 text-white group-hover:text-[#ff66b3] transition-colors leading-tight">
                       {member.name}
                     </h3>
-                    <p className="text-[10px] font-bold uppercase tracking-widest mb-4"
+                    <p className="text-[10px] font-bold lowercasetracking-widest mb-4"
                       style={{ color: "rgba(255,255,255,0.42)" }}>
                       {member.role}
                     </p>
@@ -492,7 +492,7 @@ export default function AboutPage() {
                       <div className="flex flex-wrap gap-2 mb-4">
                         {member.skills.map((s) => (
                           <span key={s}
-                            className="text-[9px] font-bold px-3 py-1 rounded-lg uppercase tracking-wide"
+                            className="text-[9px] font-bold px-3 py-1 rounded-lg lowercasetracking-wide"
                             style={{
                               background: "rgba(212,0,110,0.14)",
                               border: "1px solid rgba(212,0,110,0.28)",
@@ -530,10 +530,10 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-18"
           >
-            <span className="text-[10px] font-bold uppercase tracking-[0.42em] mb-3 block" style={{ color: "#d4006e" }}>
+            <span className="text-[10px] font-bold lowercasetracking-[0.42em] mb-3 block" style={{ color: "#d4006e" }}>
               {t.about.principles_label}
             </span>
-            <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white mb-16">
+            <h2 className="text-4xl md:text-6xl font-black italic lowercasetracking-tighter text-white mb-16">
               {t.about.principles_title}
             </h2>
           </motion.div>
@@ -583,7 +583,7 @@ export default function AboutPage() {
                       transition: "all 0.35s ease",
                     }}
                   >
-                    <h3 className="text-2xl md:text-3xl font-black italic uppercase tracking-tight mb-3 text-white group-hover:text-[#ff66b3] transition-colors duration-300">
+                    <h3 className="text-2xl md:text-3xl font-black italic lowercasetracking-tight mb-3 text-white group-hover:text-[#ff66b3] transition-colors duration-300">
                       {p.title}
                     </h3>
                     <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.46)" }}>
@@ -624,7 +624,7 @@ export default function AboutPage() {
             <div className="absolute inset-0 pointer-events-none rounded-3xl"
               style={{ background: "radial-gradient(ellipse 70% 60% at 50% -10%, rgba(212,0,110,0.09) 0%, transparent 70%)" }} />
 
-            <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 text-white relative z-10">
+            <h2 className="text-4xl md:text-6xl font-black italic lowercasetracking-tighter mb-4 text-white relative z-10">
               {t.about.cta_title}
             </h2>
             <p className="mb-10 text-lg max-w-md mx-auto relative z-10" style={{ color: "rgba(255,255,255,0.44)" }}>
