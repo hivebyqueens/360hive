@@ -100,7 +100,7 @@ export function Navigation() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      
       <AnimatePresence>
         {isOpen && (
           <motion.div
