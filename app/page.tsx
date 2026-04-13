@@ -193,7 +193,7 @@ export default function HomePage() {
                <p className="text-[14px] font-medium text-white/40 leading-relaxed">Educational services, digital learning platforms, and professional upskilling.</p>
             </motion.div>
 
-            {/* Tall Card 4 - Pro Max Wide */}
+          
             <motion.div 
               whileHover={{ scale: 1.02, y: -5, backgroundColor: "rgba(212,0,110,0.15)", borderColor: "#d4006e" }}
               className="relative p-14 rounded-[4rem] bg-white/[0.03] border border-white/5 h-[580px] flex flex-col justify-end overflow-hidden transition-all duration-500 shadow-2xl"
