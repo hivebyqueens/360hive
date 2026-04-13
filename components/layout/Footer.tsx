@@ -33,7 +33,7 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* ── NEWSLETTER SECTION: PRO MAX GLASS ── */}
+    
         <section className="mb-32 flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12">
           <div className="max-w-2xl text-center lg:text-left">
             <p className="text-[11px] font-bold lowercasetracking-[0.4em] text-[#d4006e] mb-6">Newsletter</p>
