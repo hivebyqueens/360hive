@@ -206,7 +206,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── PRINCIPLES SECTION ── */}
+        
         <section className="py-24 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-start">
           <div className="lg:w-1/3">
              <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter mb-8 leading-tight">Principles <br/>of hive</h2>
