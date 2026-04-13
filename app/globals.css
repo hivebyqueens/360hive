@@ -130,39 +130,49 @@ p {
 .p-lead {
   font-size: var(--text-lg);            /* 17–18 px  */
   line-height: var(--leading-relaxed);
-  color: var(--text-soft);
 }
 
 /*  Secondary body — descriptions, supporting copy          */
 .p-body {
   font-size: var(--text-base);          /* 15–16 px  */
   line-height: var(--leading-relaxed);
-  color: var(--text-soft);
 }
 
 /*  Small body — meta, timestamps, helper text              */
 .p-sm {
   font-size: var(--text-sm);            /* 13–14 px  */
   line-height: var(--leading-normal);
-  color: var(--text-soft);
 }
 
 /*  Caption — image captions, footnotes, fine print         */
 .p-caption {
   font-size: var(--text-xs);            /* 11–12 px  */
   line-height: var(--leading-normal);
-  color: var(--text-soft);
   letter-spacing: var(--tracking-wide);
 }
 
-/*  Eyebrow label — uppercase badge above a section title   */
+/*  Eyebrow label — small badge above a section title       */
 .p-label {
   font-size: var(--text-xs);            /* 11–12 px  */
   font-weight: 700;
   line-height: var(--leading-normal);
   letter-spacing: var(--tracking-widest);
-  text-transform: lowercase;
 }
+
+/* ── Fluid type utility classes ───────────────────────── */
+/*  Use these anywhere Tailwind text-* would fight the scale */
+.type-xs   { font-size: var(--text-xs);   }
+.type-sm   { font-size: var(--text-sm);   }
+.type-base { font-size: var(--text-base); }
+.type-lg   { font-size: var(--text-lg);   }
+.type-xl   { font-size: var(--text-xl);   }
+.type-2xl  { font-size: var(--text-2xl);  }
+.type-3xl  { font-size: var(--text-3xl);  }
+.type-4xl  { font-size: var(--text-4xl);  }
+.type-5xl  { font-size: var(--text-5xl);  }
+.type-6xl  { font-size: var(--text-6xl);  }
+.type-7xl  { font-size: var(--text-7xl);  }
+.type-8xl  { font-size: var(--text-8xl);  }
 
 a {
   color: inherit;

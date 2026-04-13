@@ -25,7 +25,7 @@ export function Footer() {
   return (
     <footer className="relative bg-[#05010d] text-gray-400 pt-32 pb-12 overflow-hidden border-t border-white/5">
       
-      {/* ── BACKGROUND ATMOSPHERE ── */}
+      
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute bottom-[-10%] left-[10%] w-[500px] h-[500px] bg-[#d4006e]/05 blur-[120px] rounded-full" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#8c00c8]/05 blur-[120px] rounded-full" />
