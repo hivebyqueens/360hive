@@ -109,7 +109,7 @@ export function Navigation() {
             exit={{ opacity: 0, y: -10 }}
             className="fixed inset-0 z-[10000] lg:hidden bg-[#05010d] flex flex-col pt-32 px-8"
           >
-            {/* Ambient Background Glow */}
+       
             <div className="absolute top-0 right-0 w-80 h-80 bg-[#d4006e]/10 blur-[120px] rounded-full pointer-events-none" />
             
             <div className="space-y-8 relative z-10">
